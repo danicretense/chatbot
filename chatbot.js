@@ -46,20 +46,10 @@ const menu_opcoes = 'Se tiver duvidas digite uma das opções abaixo:\n\n1️⃣
 // ---------------------
 
 client.on('message', async msg => {
-    const cookies = JSON.parse(fs.readFileSync('cookies.json'));
-for (let cookie of cookies) {
-	await page.setCookie(cookie);
-}
-
-const localStorageData = JSON.parse(fs.readFileSync('localStorage.json'));
-await page.evaluate((data) => {
-	for (const key in data) {
-		localStorage.setItem(key, data[key]);
-	}
-}, localStorageData);
+    
 	try{
 		// Menu principal
-		if (msg.body.match(/(Olá! Quero saber mais sobre a progressiva vegetal)/i) && msg.from.endsWith('@c.us')) {
+		if (msg.body.match(/(olá|oi|Olá! Quero saber mais sobre a progressiva vegetal)/i) && msg.from.endsWith('@c.us')) {
 
 			//Captura a mensagem enviada pelo cliente
 			const chat = await msg.getChat();
@@ -116,7 +106,7 @@ await page.evaluate((data) => {
 		if (msg.body !== null && msg.body === '2' && msg.from.endsWith('@c.us')) { 
 		
 			//Captura a mensagem enviada pelo cliente
-			const chat = await msg.getChat();
+			const chat = await msg.getChat(); 
 			
 
 			//Enviar audio de como funciona o sutia
