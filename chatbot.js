@@ -10,10 +10,7 @@ const client = new Client({
     }
 });
 // Configuração do servivor
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Servidor rodando na porta ${port}`);
-});
+
 
 
 // Serviço de leitura do QR code
