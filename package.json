@@ -9,6 +9,6 @@
   
    "scripts" :{
     "start": "node chatbot.js"
-  },
-  "type": "commonjs"
+  }
+  
 }

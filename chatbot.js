@@ -1,7 +1,6 @@
 // Leitor de QR code
 const qrcode = require('qrcode-terminal');
-const puppeteer = require('puppeteer');
-const fs = require('fs'); 
+
 // Carrega Client WhatsApp
 const { Client, Buttons, List, MessageMedia } = require('whatsapp-web.js');
 
@@ -53,20 +52,21 @@ client.on('message', async msg => {
 
 			//Captura a mensagem enviada pelo cliente
 			const chat = await msg.getChat();
-			msg.react('👍');
-
+			
 			//Mensagem inicial
-			await delay(3000); 						// Delay de 3 segundo
+			await delay(10000); 						// Delay de 3 segundo
+			msg.react('👍');
 			await chat.sendStateTyping(); 			// Simulando Digitação
 			await delay(10000);						// Delay de 3 segundos
 			const contact = await msg.getContact(); // Captura o contato
 			const name = contact.pushname; 			// Captura o nome do contato
-			await client.sendMessage(msg.from, 'Olá ' + name.split(" ")[0] + '! Meu nome é Daniela, sou atendente da Havanas Cosméticos e vou te passar algumas informações sobre a *PROGRESSIVA VEGETAL*'); 
+			await client.sendMessage(msg.from, 'Oi ' + name.split(" ")[0] + '! Meu nome é Daniela, sou atendente da Havana Cosméticos e vou te passar algumas informações sobre a *PROGRESSIVA VEGETAL,blz?😉*'); 
 			await chat.clearState();
             
 
 			//Video de como aplicar a progressiva
 			const media_video = MessageMedia.fromFilePath('./videos/modo de usar.mp4');
+			await delay(10000);
             await client.sendMessage(msg.from, media_video, {caption: 'Como aplicar a progressiva! 🥰'});
              //Audio explicando a composição
 			
@@ -77,6 +77,8 @@ client.on('message', async msg => {
 			await client.sendMessage(msg.from, media_audio, {sendAudioAsVoice: true});
 			await chat.clearState();
 			await delay(5000);
+			const m_video = MessageMedia.fromFilePath('./videos/5.mp4');
+			await client.sendMessage(msg.from, m_video, {caption: 'Resultado de uma das nossas clientes'});
 			//Menu de opções
 			
 			await client.sendMessage(msg.from, menu_opcoes); 
@@ -115,7 +117,7 @@ client.on('message', async msg => {
 			await delay(10000); 						// Delay de 10 segundos
 			
 			//const media_audio2 = MessageMedia.fromFilePath('./audios/a1 sutia.aac');
-			await client.sendMessage(msg.from,"Para poder comprar com a gente, você deve fornecer seu nome completo, cep, nº da casa e telefone. Com esses dados o agendamento da sua entrega será realizada e o pagamento só é feito quando você estiver com o   produto em mãos");
+			await client.sendMessage(msg.from,"é só você me mandar seu nome completo,numero de telefone e seu CEP");
 			await chat.clearState();
 			
 			//Menu de opções
