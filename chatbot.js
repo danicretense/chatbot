@@ -9,6 +9,12 @@ const client = new Client({
         executablePath: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
     }
 });
+// Configuração do servivor
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Servidor rodando na porta ${port}`);
+});
+
 
 // Serviço de leitura do QR code
 client.on('qr', qr => {
