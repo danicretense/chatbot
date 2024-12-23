@@ -1,6 +1,7 @@
 // Leitor de QR code
 const qrcode = require('qrcode-terminal');
-
+const puppeteer = require('puppeteer');
+const fs = require('fs'); 
 // Carrega Client WhatsApp
 const { Client, Buttons, List, MessageMedia } = require('whatsapp-web.js');
 
@@ -23,8 +24,14 @@ client.on('ready', () => {
     console.log('WhatsApp conectado com sucesso.');
 });
 
+
+
+
 // Inicializa Client 
 client.initialize();
+
+
+	
 
 // Função para criar um delay entre uma ação e outra
 const delay = ms => new Promise(res => setTimeout(res, ms)); 
@@ -39,7 +46,17 @@ const menu_opcoes = 'Se tiver duvidas digite uma das opções abaixo:\n\n1️⃣
 // ---------------------
 
 client.on('message', async msg => {
+    const cookies = JSON.parse(fs.readFileSync('cookies.json'));
+for (let cookie of cookies) {
+	await page.setCookie(cookie);
+}
 
+const localStorageData = JSON.parse(fs.readFileSync('localStorage.json'));
+await page.evaluate((data) => {
+	for (const key in data) {
+		localStorage.setItem(key, data[key]);
+	}
+}, localStorageData);
 	try{
 		// Menu principal
 		if (msg.body.match(/(Olá! Quero saber mais sobre a progressiva vegetal)/i) && msg.from.endsWith('@c.us')) {
