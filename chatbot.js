@@ -1,3 +1,5 @@
+const http = require('http');
+const port = process.env.PORT || 3000;
 // Leitor de QR code
 const qrcode = require('qrcode-terminal');
 
@@ -39,8 +41,7 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
 //1️⃣ 2️⃣ 3️⃣ 4️⃣ 5️⃣ 6️⃣ 7️⃣ 8️⃣ 9️⃣ 🔟 ➡️ ⤵️ 👙 👗 💲 💎 📅 📆 🗓️ 🗒️ 📋 📒 📝 🎧 📲 ⚠️ 🙋🏼‍ 🤎 🖤 💛 📈 🛒 ❤️ 🤩
 
 //Mensagem do menu de opções
-const menu_opcoes = 'Se tiver duvidas digite uma das opções abaixo:\n\n1️⃣ - *Quanto custa* \n\n2️⃣ - *Como Comprar Progressiva Vegetal Em Creme* \n\n3️⃣ *- Locais com entrega rápida* ‍';
-
+const menu_opcoes = 'Se tiver duvidas digite uma das opções abaixo:\n\n1️⃣ - *Quanto custa* \n\n2️⃣ - *Como Comprar Progressiva Vegetal Em Creme* ';
 // Configuração do Funil
 // ---------------------
 
@@ -117,7 +118,7 @@ client.on('message', async msg => {
 			await delay(10000); 						// Delay de 10 segundos
 			
 			//const media_audio2 = MessageMedia.fromFilePath('./audios/a1 sutia.aac');
-			await client.sendMessage(msg.from,"é só você me mandar seu nome completo,numero de telefone e seu CEP");
+			await client.sendMessage(msg.from,"é só você me mandar seu nome completo,numero de telefone e seu ");
 			await chat.clearState();
 			
 			//Menu de opções
@@ -127,26 +128,6 @@ client.on('message', async msg => {
 			await chat.clearState();
 		}
 		
-		//Opção 3 - LOcalidades
-		if (msg.body !== null && msg.body === '3' && msg.from.endsWith('@c.us')) { 
-		
-			//Captura a mensagem enviada pelo cliente
-			const chat = await msg.getChat();
-			
-
-			//Enviar mensagem sobre os preços
-			await delay(3000); 						// Delay de 1 segundo
-			await chat.sendStateTyping(); 			// Simulando Digitação
-			await delay(10000); 						// Delay de 5 segundos
-			await client.sendMessage(msg.from,'Se você mora em uma dessas cidades a entrega é feita em 24 horas ou em até em 3 dias utéis:\n*Almirante Tamandaré*\n*Curitiba*\n*Araucária*\n*Colombo*\n*Fazenda Rio Grande*\n*Pinhais*\n*Piraquara*\n*São José dos Pinhais*');
-			await chat.clearState();
-			
-			//Menu de opções
-			await chat.sendStateTyping(); 	   // Simulando Digitação
-			await delay(3000); 				  // Delay de 3 segundos,,
-			//await chat.setPresenceOnline();
-			await client.sendMessage(msg.from, menu_opcoes); 
-		}
 		
 		
 	
@@ -168,7 +149,12 @@ process.on('unhandledRejection', (error) => {
 	console.log("Unhandled promise rejection:", error);
   });
   
-  
+  http.createServer((req, res) => {
+	res.writeHead(200, { 'Content-Type': 'text/plain' });
+	res.end('Bot está rodando!\n');
+  }).listen(port, () => {
+	console.log(`Servidor rodando na porta ${port}`);
+  });
 //---------------------------------------------------------------------------
 
 //Trechos de código para auxiliar no desenvolvimento
