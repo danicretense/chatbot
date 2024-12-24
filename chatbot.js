@@ -1,24 +1,47 @@
 const http = require('http');
-const port = process.env.PORT || 3000;
+const express = require('express');
+ 
+const path = require('path');
 // Leitor de QR code
 const qrcode = require('qrcode-terminal');
 
 // Carrega Client WhatsApp
-const { Client, Buttons, List, MessageMedia } = require('whatsapp-web.js');
+const { Client, Buttons, List, MessageMedia,LocalAuth} = require('whatsapp-web.js');
+const app = express();
+
+// Diretório onde os arquivos HTML com o QR code são salvos
+const qrCodePath = path.join(__dirname, 'qr-codes');
+app.use('/qr', express.static(qrCodePath)); 
 
 const client = new Client({
-    puppeteer: {
-        executablePath: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
-    }
+    authStrategy: new LocalAuth(),
 });
 // Configuração do servivor
 
 
 
 // Serviço de leitura do QR code
-client.on('qr', qr => {
-    qrcode.generate(qr, {small: true});
-});
+client.on('qr', (qr) => {
+	console.log('QR RECEIVED:', qr);
+	qrcode.generate(qr, { small: true });
+	const qrCodePath = path.join(__dirname, 'qrcodes');
+    if (!fs.existsSync(qrCodePath)) {
+        fs.mkdirSync(qrCodePath); // Cria a pasta 'qrcodes' se não existir
+    }
+	const qrCodeFilePath = path.join(qrCodePath, `qr-${Date.now()}.html`);
+    const qrCodeHtml = `
+        <!DOCTYPE html>
+        <html>
+        <body>
+            <h1>Escaneie o QR Code com o WhatsApp</h1>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(qr)}" alt="QR Code">
+        </body>
+        </html>
+    `;
+	// Exibe no console para debug
+	fs.writeFileSync(qrCodeFilePath, qrCodeHtml);
+    console.log(`QR Code salvo em: ${qrCodeFilePath}`);
+  });
 
 // Verifica se a conexao foi bem sucedida
 client.on('ready', () => {
@@ -30,7 +53,10 @@ client.on('ready', () => {
 
 // Inicializa Client 
 client.initialize();
-
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+	console.log(`Servidor rodando na porta ${PORT}`);
+  });
 
 	
 
@@ -149,12 +175,15 @@ process.on('unhandledRejection', (error) => {
 	console.log("Unhandled promise rejection:", error);
   });
   
-  http.createServer((req, res) => {
-	res.writeHead(200, { 'Content-Type': 'text/plain' });
-	res.end('Bot está rodando!\n');
-  }).listen(port, () => {
-	console.log(`Servidor rodando na porta ${port}`);
-  });
+  
+  
+  app.use('/qr', express.static(path.join(__dirname, 'qrcodes')));
+
+app.get('/', (req, res) => {
+    res.send('Bot está rodando. Acesse /qr para ver os QR Codes.');
+});
+
+
 //---------------------------------------------------------------------------
 
 //Trechos de código para auxiliar no desenvolvimento
