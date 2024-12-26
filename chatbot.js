@@ -1,63 +1,102 @@
-const http = require('http');
 const express = require('express');
- 
+const fs = require('fs');
 const path = require('path');
-// Leitor de QR code
-const qrcode = require('qrcode-terminal');
+const { Client, LocalAuth,MessageMedia } = require('whatsapp-web.js');
 
-// Carrega Client WhatsApp
-const { Client, Buttons, List, MessageMedia,LocalAuth} = require('whatsapp-web.js');
 const app = express();
-
-// Diretório onde os arquivos HTML com o QR code são salvos
+const cacheDir = path.join(__dirname, '.wwebjs_cache');
 const qrCodePath = path.join(__dirname, 'qr-codes');
-app.use('/qr', express.static(qrCodePath)); 
 
+// Configura o diretório estático para QR Codes
+if (!fs.existsSync(qrCodePath)) {
+    fs.mkdirSync(qrCodePath);
+}
+app.use('/qr', express.static(qrCodePath));
+
+let qrFileName = ''; // Armazena o nome do último arquivo QR gerado
+
+// Evento de QR Code
 const client = new Client({
-    authStrategy: new LocalAuth(),
+	authStrategy: new LocalAuth({
+    }),
 });
-// Configuração do servivor
 
+const getLatestFile = (directory, extension = '.html') => {
+    const files = fs.readdirSync(directory)
+        .filter(file => file.endsWith(extension))
+        .map(file => ({
+            name: file,
+            time: fs.statSync(path.join(directory, file)).mtime.getTime(),
+        }))
+        .sort((a, b) => b.time - a.time); // Ordena por data de modificação (mais recente primeiro)
 
+    return files.length > 0 ? files[0].name : null;
+};
 
-// Serviço de leitura do QR code
-client.on('qr', (qr) => {
-	console.log('QR RECEIVED:', qr);
-	qrcode.generate(qr, { small: true });
-	const qrCodePath = path.join(__dirname, 'qrcodes');
-    if (!fs.existsSync(qrCodePath)) {
-        fs.mkdirSync(qrCodePath); // Cria a pasta 'qrcodes' se não existir
+client.on('qr', async (qr) => {
+	console.log('QR Code recebido!');
+    const latestFile = getLatestFile(cacheDir, '.html');
+    if (!latestFile) {
+        console.error('Nenhum arquivo HTML encontrado na pasta wwebjs_cache.');
+        return;
     }
-	const qrCodeFilePath = path.join(qrCodePath, `qr-${Date.now()}.html`);
-    const qrCodeHtml = `
-        <!DOCTYPE html>
-        <html>
-        <body>
-            <h1>Escaneie o QR Code com o WhatsApp</h1>
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(qr)}" alt="QR Code">
-        </body>
-        </html>
-    `;
-	// Exibe no console para debug
-	fs.writeFileSync(qrCodeFilePath, qrCodeHtml);
-    console.log(`QR Code salvo em: ${qrCodeFilePath}`);
-  });
 
-// Verifica se a conexao foi bem sucedida
-client.on('ready', () => {
-    console.log('WhatsApp conectado com sucesso.');
+    const sourcePath = path.join(cacheDir, latestFile);
+    const destPath = path.join(qrCodePath, 'index.html'); // Renomeia para um nome fixo
+
+    try {
+        fs.copyFileSync(sourcePath, destPath);
+        console.log(`QR Code HTML copiado como index.html para a pasta qr-codes.`);
+        qrFileName = 'index.html'; // Atualiza o nome do arquivo QR Code
+    } catch (error) {
+        console.error('Erro ao copiar o QR Code HTML:', error);
+    }
 });
 
+// Monitora a pasta qr-codes
+fs.watch(qrCodePath, (eventType, filename) => {
+    if (filename) {
+        console.log(`Arquivo atualizado na pasta qr-codes: ${filename}`);
+        qrFileName = filename; // Atualiza o nome do arquivo
+    }
+});
 
+// Rota para exibir o QR Code
+app.get('/qr', (req, res) => {
+    try {
+        if (!qrFileName) {
+            console.log("QR Code ainda não foi gerado");
+            return res.send('<h1>Aguardando geração do QR Code...</h1>');
+        }
 
+        const qrFileUrl = `/qr/${qrFileName}`;
+        console.log(`Servindo QR Code em: ${qrFileUrl}`);
 
-// Inicializa Client 
+        const qrCodeHtml = `
+            <!DOCTYPE html>
+            <html>
+            <body>
+                <h1>Escaneie o QR Code com o WhatsApp</h1>
+                <img src="${qrFileUrl}" alt="QR Code">
+            </body>
+            </html>
+        `;
+
+        res.send(qrCodeHtml);
+    } catch (error) {
+        console.error('Erro na rota /qr:', error);
+        res.status(500).send('<h1>Erro ao exibir o QR Code</h1>');
+    }
+});
+
+// Inicializa o cliente WhatsApp
 client.initialize();
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-	console.log(`Servidor rodando na porta ${PORT}`);
-  });
 
+// Inicializa o servidor Express
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log(`Servidor rodando em http://localhost:${PORT}`);
+});
 	
 
 // Função para criar um delay entre uma ação e outra
@@ -70,6 +109,9 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
 const menu_opcoes = 'Se tiver duvidas digite uma das opções abaixo:\n\n1️⃣ - *Quanto custa* \n\n2️⃣ - *Como Comprar Progressiva Vegetal Em Creme* ';
 // Configuração do Funil
 // ---------------------
+client.on('ready', () => {
+    console.log('Cliente WhatsApp está pronto!');
+});
 
 client.on('message', async msg => {
     
@@ -177,7 +219,7 @@ process.on('unhandledRejection', (error) => {
   
   
   
-  app.use('/qr', express.static(path.join(__dirname, 'qrcodes')));
+  app.use('/qr', express.static(path.join(__dirname, 'qr-codes')));
 
 app.get('/', (req, res) => {
     res.send('Bot está rodando. Acesse /qr para ver os QR Codes.');
