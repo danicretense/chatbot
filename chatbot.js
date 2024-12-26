@@ -162,8 +162,9 @@ client.on('message', async msg => {
 
 			
 			await delay(1000); 						// Delay de 1 segundo
-			const media_imagem = MessageMedia.fromFilePath('./images/preco.png');
-			await client.sendMessage(msg.from, media_imagem);
+			await chat.sendStateTyping();
+			await delay(5000);
+			await client.sendMessage(msg.from, 'Atualmente nossa progressiva está saindo no valor de R$197,00');
 			await chat.sendStateRecording();
 			await delay(40000); 						// Delay de 3 segundos
 			const media_audio = MessageMedia.fromFilePath('./audios/oferta.aac');
@@ -186,7 +187,7 @@ client.on('message', async msg => {
 			await delay(10000); 						// Delay de 10 segundos
 			
 			//const media_audio2 = MessageMedia.fromFilePath('./audios/a1 sutia.aac');
-			await client.sendMessage(msg.from,"é só você me mandar seu nome completo,numero de telefone e seu ");
+			await client.sendMessage(msg.from,"é só você me mandar seu nome completo,numero de telefone e seu CEP ");
 			await chat.clearState();
 			
 			//Menu de opções
