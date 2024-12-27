@@ -86,7 +86,7 @@ client.on('message', async msg => {
             
 
 			//Video de como aplicar a progressiva
-			const media_video = MessageMedia.fromFilePath('./videos/modo de usar.mp4');
+			const media_video = MessageMedia.fromFilePath(' ./videos/modo de usar.mp4');
 			await delay(10000);
             await client.sendMessage(msg.from, media_video, {caption: 'Como aplicar a progressiva! 🥰'});
              //Audio explicando a composição
