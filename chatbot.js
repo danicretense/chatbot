@@ -1,125 +1,55 @@
+const { Client, LocalAuth ,MessageMedia} = require('whatsapp-web.js');
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-const { Client, LocalAuth,MessageMedia } = require('whatsapp-web.js');
 
 const app = express();
-const cacheDir = path.join(__dirname, '.wwebjs_cache');
-const qrCodePath = path.join(__dirname, 'qr-codes');
+const PORT = 3000;
 
-const SESSION_FILE_PATH = './session.json';
-
-// Verifica se a sessão já existe
-let sessionData;
-if (fs.existsSync(SESSION_FILE_PATH)) {
-    sessionData = require(SESSION_FILE_PATH);
-}
-
-
-// Configura o diretório estático para QR Codes
-if (!fs.existsSync(qrCodePath)) {
-    fs.mkdirSync(qrCodePath);
-}
-app.use('/qr', express.static(qrCodePath));
-
-let qrFileName = ''; // Armazena o nome do último arquivo QR gerado
-
-// Evento de QR Code
+// Inicializar cliente com autenticação local
 const client = new Client({
-	puppeteer: {
+    authStrategy: new LocalAuth({
+        clientId: 'nova-sessao',
+    }),
+    puppeteer: {
+        headless: true,
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
     },
-    session: sessionData
-});
-client.on('authenticated', (session) => {
-    fs.writeFileSync(SESSION_FILE_PATH, JSON.stringify(session));
-    console.log('Sessão autenticada e salva.');
 });
 
-
-client.on('auth_failure', () => {
-    console.error('Falha na autenticação. Removendo sessão antiga.');
-    if (fs.existsSync(SESSION_FILE_PATH)) {
-        fs.unlinkSync(SESSION_FILE_PATH);
-    }
+// Quando o cliente está pronto
+client.on('ready', () => {
+    console.log('[INFO] Bot está pronto!');
 });
-const getLatestFile = (directory, extension = '.html') => {
-    const files = fs.readdirSync(directory)
-        .filter(file => file.endsWith(extension))
-        .map(file => ({
-            name: file,
-            time: fs.statSync(path.join(directory, file)).mtime.getTime(),
-        }))
-        .sort((a, b) => b.time - a.time); // Ordena por data de modificação (mais recente primeiro)
 
-    return files.length > 0 ? files[0].name : null;
-};
-
-client.on('qr', async (qr) => {
-	console.log('QR Code recebido!');
-    const latestFile = getLatestFile(cacheDir, '.html');
-    if (!latestFile) {
-        console.error('Nenhum arquivo HTML encontrado na pasta wwebjs_cache.');
-        return;
-    }
-
-    const sourcePath = path.join(cacheDir, latestFile);
-    const destPath = path.join(qrCodePath, 'index.html'); // Renomeia para um nome fixo
-
+// Ao receber uma mensagem
+client.on('message', async (msg) => {
     try {
-        fs.copyFileSync(sourcePath, destPath);
-        console.log(`QR Code HTML copiado como index.html para a pasta qr-codes.`);
-        qrFileName = 'index.html'; // Atualiza o nome do arquivo QR Code
-    } catch (error) {
-        console.error('Erro ao copiar o QR Code HTML:', error);
-    }
-});
-
-// Monitora a pasta qr-codes
-fs.watch(qrCodePath, (eventType, filename) => {
-    if (filename) {
-        console.log(`Arquivo atualizado na pasta qr-codes: ${filename}`);
-        qrFileName = filename; // Atualiza o nome do arquivo
-    }
-});
-
-// Rota para exibir o QR Code
-app.get('/qr', (req, res) => {
-    try {
-        if (!qrFileName) {
-            console.log("QR Code ainda não foi gerado");
-            return res.send('<h1>Aguardando geração do QR Code...</h1>');
+        console.log(`[INFO] Mensagem de ${msg.from}: ${msg.body}`);
+        if (msg.body === 'Olá') {
+            await client.sendMessage(msg.from, 'Olá! Como posso ajudar?');
         }
-
-        const qrFileUrl = `/qr/${qrFileName}`;
-        console.log(`Servindo QR Code em: ${qrFileUrl}`);
-
-        const qrCodeHtml = `
-            <!DOCTYPE html>
-            <html>
-            <body>
-                <h1>Escaneie o QR Code com o WhatsApp</h1>
-                <img src="${qrFileUrl}" alt="QR Code">
-            </body>
-            </html>
-        `;
-
-        res.send(qrCodeHtml);
     } catch (error) {
-        console.error('Erro na rota /qr:', error);
-        res.status(500).send('<h1>Erro ao exibir o QR Code</h1>');
+        console.error('[ERRO] Ocorreu um problema ao processar a mensagem:', error);
     }
 });
 
-// Inicializa o cliente WhatsApp
+// Inicializar cliente
 client.initialize();
 
-// Inicializa o servidor Express
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Servidor rodando em http://localhost:${PORT}`);
+// Servir rota para QR Code
+app.get('/qr', (req, res) => {
+    const qrFilePath = path.join(__dirname, 'qr-codes', 'index.html');
+    if (fs.existsSync(qrFilePath)) {
+        res.sendFile(qrFilePath);
+    } else {
+        res.send('QR Code ainda não foi gerado.');
+    }
 });
-	
+
+app.listen(PORT, () => {
+    console.log(`[INFO] Servidor rodando em http://localhost:${PORT}`);
+});
 
 // Função para criar um delay entre uma ação e outra
 const delay = ms => new Promise(res => setTimeout(res, ms)); 
