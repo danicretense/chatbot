@@ -7,6 +7,15 @@ const app = express();
 const cacheDir = path.join(__dirname, '.wwebjs_cache');
 const qrCodePath = path.join(__dirname, 'qr-codes');
 
+const SESSION_FILE_PATH = './session.json';
+
+// Verifica se a sessão já existe
+let sessionData;
+if (fs.existsSync(SESSION_FILE_PATH)) {
+    sessionData = require(SESSION_FILE_PATH);
+}
+
+
 // Configura o diretório estático para QR Codes
 if (!fs.existsSync(qrCodePath)) {
     fs.mkdirSync(qrCodePath);
@@ -17,10 +26,23 @@ let qrFileName = ''; // Armazena o nome do último arquivo QR gerado
 
 // Evento de QR Code
 const client = new Client({
-	authStrategy: new LocalAuth({
-    }),
+	puppeteer: {
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    },
+    session: sessionData
+});
+client.on('authenticated', (session) => {
+    fs.writeFileSync(SESSION_FILE_PATH, JSON.stringify(session));
+    console.log('Sessão autenticada e salva.');
 });
 
+
+client.on('auth_failure', () => {
+    console.error('Falha na autenticação. Removendo sessão antiga.');
+    if (fs.existsSync(SESSION_FILE_PATH)) {
+        fs.unlinkSync(SESSION_FILE_PATH);
+    }
+});
 const getLatestFile = (directory, extension = '.html') => {
     const files = fs.readdirSync(directory)
         .filter(file => file.endsWith(extension))
