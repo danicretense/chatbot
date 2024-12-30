@@ -24,7 +24,7 @@ apt-get update && apt-get install -y google-chrome-stable
 
 # Configure variáveis de ambiente para o Puppeteer
 ENV PUPPETEER_SKIP_DOWNLOAD=true \
-    PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable
 
 # Configure o diretório de trabalho no contêiner
 WORKDIR /app
