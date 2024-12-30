@@ -1,4 +1,0 @@
-2024/12/29-23:04:17.246 57b8 Reusing MANIFEST C:\Bot\.wwebjs_auth\session-nova-sessao\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2024/12/29-23:04:17.247 57b8 Recovering log #255
-2024/12/29-23:04:17.260 57b8 Reusing old log C:\Bot\.wwebjs_auth\session-nova-sessao\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000255.log 
-2024/12/29-23:04:18.517 6c74 Manual compaction at level-0 from '\x00M\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00N\x00\x00\x00' @ 0 : 0; will stop at (end)
