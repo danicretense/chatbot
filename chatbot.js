@@ -19,7 +19,8 @@ const client = new Client({
         clientId: 'nova-sessao',
     }),
     puppeteer: {
-        executablePath: '/usr/bin/google-chrome',
+        executablePath: '/usr/bin/google-chrome', 
+
         headless: true,
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
         
