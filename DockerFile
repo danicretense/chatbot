@@ -3,10 +3,24 @@ FROM node:18-bullseye
 
 # Atualize o sistema e instale as dependências necessárias
 RUN apt-get update && apt-get install -y \
-    wget gnupg && \
-    wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
-    apt-get install -y ./google-chrome-stable_current_amd64.deb && \
-    rm ./google-chrome-stable_current_amd64.deb
+wget gnupg \
+fonts-liberation \
+libappindicator3-1 \
+libasound2 \
+libatk-bridge2.0-0 \
+libatk1.0-0 \
+libcups2 \
+libgdk-pixbuf2.0-0 \
+libnspr4 \
+libnss3 \
+libx11-xcb1 \
+libxcomposite1 \
+libxdamage1 \
+libxrandr2 \
+xdg-utils && \
+wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list && \
+apt-get update && apt-get install -y google-chrome-stable
 
 # Configure variáveis de ambiente para o Puppeteer
 ENV PUPPETEER_SKIP_DOWNLOAD=true \
