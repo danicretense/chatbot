@@ -1,0 +1,29 @@
+# Use uma imagem base oficial com Node.js e Debian Bullseye
+FROM node:18-bullseye
+
+# Atualize o sistema e instale as dependências necessárias
+RUN apt-get update && apt-get install -y \
+    wget gnupg && \
+    wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
+    apt-get install -y ./google-chrome-stable_current_amd64.deb && \
+    rm ./google-chrome-stable_current_amd64.deb
+
+# Configure variáveis de ambiente para o Puppeteer
+ENV PUPPETEER_SKIP_DOWNLOAD=true \
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome
+
+# Configure o diretório de trabalho no contêiner
+WORKDIR /app
+
+# Copie os arquivos do projeto para o contêiner
+COPY . .
+
+# Instale as dependências do projeto
+RUN npm install
+
+# Exponha a porta padrão usada pelo projeto
+EXPOSE 3000
+
+# Comando para iniciar o aplicativo
+CMD ["node", "chatbot.js"]
+
