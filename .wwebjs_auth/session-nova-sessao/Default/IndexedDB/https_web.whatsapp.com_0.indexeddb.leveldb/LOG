@@ -1,12 +1,17 @@
-2024/12/26-22:27:54.271 76c4 Reusing MANIFEST C:\Bot\.wwebjs_auth\session-nova-sessao\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2024/12/26-22:27:54.273 76c4 Recovering log #32
-2024/12/26-22:27:54.273 76c4 Reusing old log C:\Bot\.wwebjs_auth\session-nova-sessao\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000032.log 
-2024/12/26-22:27:58.573 701c Compacting 1@1 + 2@2 files
-2024/12/26-22:27:58.661 701c Generated table #35@1: 31089 keys, 2192723 bytes
-2024/12/26-22:27:58.705 701c Generated table #36@1: 30706 keys, 749610 bytes
-2024/12/26-22:27:58.705 701c Compacted 1@1 + 2@2 files => 2942333 bytes
-2024/12/26-22:27:58.705 701c compacted to: files[ 0 0 2 0 0 0 0 ]
-2024/12/26-22:27:58.706 701c Delete type=2 #30
-2024/12/26-22:27:58.706 701c Delete type=2 #31
-2024/12/26-22:27:58.706 701c Delete type=2 #33
-2024/12/26-22:27:59.046 3900 Manual compaction at level-0 from '\x00\x18\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x19\x00\x00\x00' @ 0 : 0; will stop at (end)
+2024/12/30-00:26:32.869 1aa4 Reusing MANIFEST C:\Bot\.wwebjs_auth\session-nova-sessao\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2024/12/30-00:26:32.869 1aa4 Recovering log #255
+2024/12/30-00:26:32.889 1aa4 Reusing old log C:\Bot\.wwebjs_auth\session-nova-sessao\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000255.log 
+2024/12/30-00:26:34.159 5ec8 Level-0 table #262: started
+2024/12/30-00:26:34.173 5ec8 Level-0 table #262: 981466 bytes OK
+2024/12/30-00:26:34.174 5ec8 Delete type=0 #255
+2024/12/30-00:26:34.175 5ec8 Manual compaction at level-0 from '\x00N\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00O\x00\x00\x00' @ 0 : 0; will stop at (end)
+2024/12/30-00:26:35.134 7ddc Compacting 1@1 + 3@2 files
+2024/12/30-00:26:35.203 7ddc Generated table #263@1: 54134 keys, 2227031 bytes
+2024/12/30-00:26:35.234 7ddc Generated table #264@1: 17779 keys, 2168938 bytes
+2024/12/30-00:26:35.254 7ddc Generated table #265@1: 42178 keys, 1024155 bytes
+2024/12/30-00:26:35.254 7ddc Compacted 1@1 + 3@2 files => 5420124 bytes
+2024/12/30-00:26:35.254 7ddc compacted to: files[ 0 0 3 0 0 0 0 ]
+2024/12/30-00:26:35.254 7ddc Delete type=2 #257
+2024/12/30-00:26:35.254 7ddc Delete type=2 #258
+2024/12/30-00:26:35.254 7ddc Delete type=2 #259
+2024/12/30-00:26:35.254 7ddc Delete type=2 #262
