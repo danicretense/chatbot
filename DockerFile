@@ -38,6 +38,11 @@ RUN npm install
 # Exponha a porta padrão usada pelo projeto
 EXPOSE 3000
 
+#Verifica se o navegador foi instalado
+RUN echo "Verificando instalação do Google Chrome..." && \
+    google-chrome --version && \
+    echo "Google Chrome instalado com sucesso!"
+
 # Comando para iniciar o aplicativo
 CMD ["node", "chatbot.js"]
 
