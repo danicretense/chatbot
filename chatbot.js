@@ -115,7 +115,7 @@ client.on('message', async msg => {
     
 	try{
 		// Menu principal
-		if (msg.body.match(/(Quero saber mais sobre a escova 3 em 1)/i) && msg.from.endsWith('@c.us')) {
+		if (msg.body.match(/(Olá! Tenho interesse e queria mais informações, por favor)/i) && msg.from.endsWith('@c.us')) {
 
 			//Captura a mensagem enviada pelo cliente
 			const chat = await msg.getChat();
@@ -167,7 +167,7 @@ client.on('message', async msg => {
 			   await client.sendMessage(msg.from,'Ficou alguma dúvida?');
                await chat.clearState();
             }  
-			if(msg.body.match(/(n|preco|nao|não|quanto e|quanto é?|e quanto|e quanto?|é quanto|valor|qual valor)|como|compra|comprar|custa/i) && msg.from.endsWith('@c.us')){
+			if(msg.body.match(/(preço|preco|nao|não|quanto e|quanto é?|e quanto|e quanto?|é quanto|valor|qual valor)|como|compra|comprar|custa/i) && msg.from.endsWith('@c.us')){
                 chat = await msg.getChat();
                 foto2=MessageMedia.fromFilePath('./images/119.png');
 				await client.sendMessage(msg.from,foto2);
