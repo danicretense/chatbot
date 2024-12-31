@@ -170,7 +170,7 @@ client.on('message', async msg => {
               await client.sendMessage(msg.from,'Que tal garantir a sua hoje? 😊');
               
             }  
-			if(msg.body.match(/como|onde|compra|comprar/i) && msg.from.endsWith('@c.us')){
+			if(msg.body.match(/como|quero|vou querer|onde|compra|comprar/i) && msg.from.endsWith('@c.us')){
                 chat = await msg.getChat();
 				await chat.sendStateTyping();
 				await delay(8000);
