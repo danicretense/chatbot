@@ -19,10 +19,10 @@ const client = new Client({
         clientId: 'nova-sessao',
     }),
     puppeteer: {
-        executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
-
         headless: true,
-        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        args: ['--no-sandbox', '--disable-setuid-sandbox','--use-fake-ui-for-media-stream',
+            '--allow-file-access-from-files',
+            '--autoplay-policy=no-user-gesture-required',],
         
     },
 });
@@ -126,7 +126,7 @@ client.on('message', async msg => {
             await delay(3000);
 			await chat.sendStateRecording(); 			// Simulando Digitação
 			await delay(25000);						// Delay de 20 segundos
-			const audio_1 = MessageMedia.fromFilePath('./audios/audio 1 (mp3cut.net).aac');
+			const audio_1 = MessageMedia.fromFilePath('./audios/audio_1.ogg');
 			await client.sendMessage(msg.from,audio_1,{sendAudioAsVoice: true} ); 
 			await chat.clearState();
               
@@ -135,14 +135,14 @@ client.on('message', async msg => {
              //Enviando audio sobre o produto
 			await chat.sendStateRecording(); 			// Simulando Digitação
 			await delay(18000);						// Delay de 20 segundos
-			const audio_2 = MessageMedia.fromFilePath('./audios/audio 2 (mp3cut.net).aac');
+			const audio_2 = MessageMedia.fromFilePath('./audios/audio_2.ogg');
 			await client.sendMessage(msg.from,audio_2,{sendAudioAsVoice: true} ); 
 			await chat.clearState();
 
             // Ultimo audio
             await chat.sendStateRecording(); 			// Simulando Digitação
 			await delay(18000);						// Delay de 20 segundos
-			const audio_3 = MessageMedia.fromFilePath('./audios/audio 3 (mp3cut.net).aac');
+			const audio_3 = MessageMedia.fromFilePath('./audios/audio_3.ogg');
 			await client.sendMessage(msg.from,audio_3,{sendAudioAsVoice: true} ); 
 			await chat.clearState();
 
@@ -156,9 +156,8 @@ client.on('message', async msg => {
 			 await client.sendMessage(msg.from,foto)
 			 await chat.clearState();
 
-			 //Video usando a escova
-               video1=MessageMedia.fromFilePath('./videos/6084954b-7ce7-43d1-9642-e1bfb52d8367.mp4');
-			   await client.sendMessage(msg.from,{caption:'Olha como é fácil de usar, só uma passadinha e pronto, o pente embutido facilita muito, o cabelo sai lisinho e sem enroscar nos fios 🥰'});
+			 
+               
 			   //Texto
 			   await chat.sendStateTyping();
 			   await delay(5000);
