@@ -149,7 +149,7 @@ client.on('message', async msg => {
 			// Enviando texto
 			await chat.sendStateTyping();
 			await delay(5000);
-			await client.sendMessage(msg.from,'Olha essa foto que a minha cliente  me enviou agorinha. Veja como ficou lindo o cabelo dela 😍👇🏾')
+			await client.sendMessage(msg.from,'Olha essa transformação incrível de uma das minhas clientes! O cabelo dela ficou lisinho e cheio de brilho com a nossa escova alisadora. 🥰 Isso porque ela tem uma tecnologia que realmente protege e alinha os fios sem esforço. Não é demais? 💇‍♀️✨');
 
              // Enviando foto
 			 foto=MessageMedia.fromFilePath('./images/antes_e_depois_2.jpg');
@@ -161,26 +161,23 @@ client.on('message', async msg => {
 			   //Texto
 			   await chat.sendStateTyping();
 			   await delay(5000);
-			   await client.sendMessage(msg.from,'Funciona para todos os tipos de cabelo e você pode usar no cabelo seco ou úmido, ela aquece super rápido, não quebra os fios e tem tecnologia antifrizz profissional 😉');
-			   //Texto com condição
-			   await delay(6000);
-			   await client.sendMessage(msg.from,'Ficou alguma dúvida?');
-               await chat.clearState();
+			   await client.sendMessage(msg.from,'Agora deixa eu te contar a melhor parte: ela está com uma oferta especial por apenas R$ 119,99!');
+              await delay(6000);
+              await client.sendMessage(msg.from,'E você nem precisa pagar agora, tá? Pode agendar a entrega e pagar no dia que preferir, diretamente para o entregador.')
+              await delay(8000);
+              await client.sendMessage(msg.from,'Aceitamos Pix, débito, crédito e até parcelamos em 12x!');
+              await delay(6000);
+              await client.sendMessage(msg.from,'Que tal garantir a sua hoje? 😊');
+              
             }  
-			if(msg.body.match(/(preço|preco|nao|não|quanto e|quanto é?|e quanto|e quanto?|é quanto|valor|qual valor)|como|compra|comprar|custa/i) && msg.from.endsWith('@c.us')){
+			if(msg.body.match(/como|onde|compra|comprar/i) && msg.from.endsWith('@c.us')){
                 chat = await msg.getChat();
-                foto2=MessageMedia.fromFilePath('./images/119.png');
-				await client.sendMessage(msg.from,foto2);
 				await chat.sendStateTyping();
 				await delay(8000);
-				await client.sendMessage(msg.from,'⭐ VALOR APENAS R$ 119,99 ⭐\nVocê agenda a entrega comigo agora e recebe no dia que preferir, não precisa pagar nada agora. Você vai receber o produto e pagar direto ao entregador no dinheiro, Pix, débito ou crédito em até 12x 😉');
+				await client.sendMessage(msg.from,'Me manda só essas informações rapidinho:\n1️⃣ *Seu nome completo.*\n2️⃣ *Endereço para entrega (rua, número, cidade, estado e CEP).*\n3️⃣ *E me avisa se prefere agendar para amanhã mesmo! 💌*');
 				await chat.sendStateTyping();
 				await delay(6000);
                 await client.sendMessage(msg.from,"*OBS: O PAGAMENTO NA ENTREGA SÓ ESTÁ DISPONIVEL PARA ALGUMAS CIDADES!!*");
-                await delay(30000);
-				await client.sendMessage(msg.from,'Vamos agendar seu pedido? 😊\n✅ Qual é o seu nome completo?\n✅ Qual é o endereço para entrega? (rua, número da casa, cidade, estado e cep)');
-			    await delay(3000);
-				await client.sendMessage(msg.from,'Qual dia você quer receber seu produto?');
 			
             }
 			
