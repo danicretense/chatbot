@@ -23,7 +23,7 @@ let client;
     client = new Client({
         authStrategy: new LocalAuth({ clientId: 'nova-sessao' }),
         puppeteer: {
-            headless: false,
+            headless: true,
             args: ['--no-sandbox', '--disable-setuid-sandbox','--disable-dev-shm-usage',  // Usa menos memória compartilhada
         '--disable-gpu',  // Desativa GPU, economizando RAM
         '--disable-software-rasterizer',
