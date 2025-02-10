@@ -1,4 +1,4 @@
-const { Client, LocalAuth, MessageMedia,List,Buttons} = require('whatsapp-web.js');
+const { Client, LocalAuth, MessageMedia, List, Buttons } = require('whatsapp-web.js');
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
@@ -13,72 +13,76 @@ if (!fs.existsSync(qrDir)) {
     fs.mkdirSync(qrDir);
 }
 
-// Inicializar cliente com autenticação local
-const client = new Client({
-    authStrategy: new LocalAuth({
-        clientId: 'nova-sessao',
-    }),
-    puppeteer: {
-        headless: true,
-        args: ['--no-sandbox', '--disable-setuid-sandbox','--use-fake-ui-for-media-stream',
-            '--allow-file-access-from-files',
-            '--autoplay-policy=no-user-gesture-required',],
-        
-    },
-});
-
-// Variável para armazenar o estado de autenticação e QR Code
+// Variáveis de estado
 let isAuthenticated = false;
 let lastQRCode = null;
+let client;
 
-// Evento quando o cliente precisa exibir o QR Code
-client.on('qr', (qr) => {
-    console.log('[INFO] QR Code recebido. Gerando imagem...');
-    qrcode.toFile(path.join(qrDir, 'qr-code.png'), qr, (err) => {
-        if (err) {
-            console.error('[ERRO] Não foi possível salvar o QR Code:', err);
-            return;
+// Função assíncrona para iniciar o Playwright e o cliente do WhatsApp
+
+    client = new Client({
+        authStrategy: new LocalAuth({ clientId: 'nova-sessao' }),
+        puppeteer: {
+            headless: false,
+            executablePath: '/usr/bin/google-chrome-stable',
+            args: ['--no-sandbox', '--disable-setuid-sandbox','--disable-dev-shm-usage',  // Usa menos memória compartilhada
+        '--disable-gpu',  // Desativa GPU, economizando RAM
+        '--disable-software-rasterizer',
+        '--disable-accelerated-2d-canvas']
         }
-        lastQRCode = qr; // Salvar o último QR Code gerado
-        console.log('[INFO] QR Code gerado com sucesso!');
+       //node --max-old-space-size=4096 chatbot.js
+
     });
-});
 
-// Evento quando o cliente está autenticado
-client.on('authenticated', () => {
-    console.log('[INFO] Cliente autenticado!');
-    isAuthenticated = true;
-    lastQRCode = null; // Limpar o último QR Code
-});
+    // Evento quando o cliente precisa exibir o QR Code
+    client.on('qr', (qr) => {
+        console.log('[INFO] QR Code recebido. Gerando imagem...');
+        qrcode.toFile(path.join(qrDir, 'qr-code.png'), qr, (err) => {
+            if (err) {
+                console.error('[ERRO] Não foi possível salvar o QR Code:', err);
+                return;
+            }
+            lastQRCode = qr; // Salvar o último QR Code gerado
+            console.log('[INFO] QR Code gerado com sucesso!');
+        });
+    });
+    client.on('loading_screen', (percent, message) => {
+        console.log(`[INFO] Carregando... ${percent}% - ${message}`);
+    });
+    // Evento quando o cliente está autenticado
+    client.on('authenticated', () => {
+        console.log('[INFO] Cliente autenticado!');
+        isAuthenticated = true;
+        lastQRCode = null; // Limpar o último QR Code
+    });
 
-// Evento quando a autenticação é encerrada
-client.on('auth_failure', (msg) => {
-    console.error('[ERRO] Falha na autenticação:', msg);
-    isAuthenticated = false;
-});
+    // Evento quando a autenticação falha
+    client.on('auth_failure', (msg) => {
+        console.error('[ERRO] Falha na autenticação:', msg);
+        isAuthenticated = false;
+    });
 
-// Quando o cliente está pronto
-client.on('ready', () => {
-    console.log('[INFO] Bot está pronto!');
-    isAuthenticated = true;
-});
-
-// Ao receber uma mensagem
-client.on('message', async (msg) => {
-    try {
-        console.log(`[INFO] Mensagem de ${msg.from}: ${msg.body}`);
-        if (msg.body === 'iu') {
-            await client.sendMessage(msg.from, 'Olá! Como posso ajudar?');
+    // Quando o cliente está pronto
+    client.on('ready', () => {
+        console.log('[INFO] Bot está pronto!');
+        isAuthenticated = true;
+    });
+    client.on('disconnected', (reason) => {
+        console.log('[INFO] Cliente desconectado:', reason);
+        if (browser) {
+            console.log('[INFO] Fechando o navegador...');
+            browser.close();
         }
-    } catch (error) {
-        console.error('[ERRO] Ocorreu um problema ao processar a mensagem:', error);
-    }
-});
+    
+        process.exit(1); 
+    });
+    // Inicializar cliente
+    client.initialize();
+    console.log('[INFO] Inicialização concluída.');
 
-// Inicializar cliente
-client.initialize();
+//console.log("Verificando client:", client);
 
-// Rota para exibir QR Code se necessário
+// Servidor Express para exibir QR Code
 app.get('/qr', (req, res) => {
     if (isAuthenticated) {
         res.send('O cliente já está autenticado.');
@@ -94,10 +98,10 @@ app.get('/qr', (req, res) => {
     }
 });
 
+// Iniciar servidor
 app.listen(PORT, () => {
     console.log(`[INFO] Servidor rodando em http://localhost:${PORT}`);
 });
-
 // Função para criar um delay entre uma ação e outra
 const delay = ms => new Promise(res => setTimeout(res, ms)); 
 
@@ -123,10 +127,10 @@ client.on('message', async msg => {
 			//Mensagem inicial
 									// Delay de 3 segundo
 			msg.react('👍');
-            await delay(3000);
+            await delay(2000);
 			await chat.sendStateRecording(); 			// Simulando Digitação
-			await delay(25000);						// Delay de 20 segundos
-			const audio_1 = MessageMedia.fromFilePath('./audios/audio_1.ogg');
+			//await delay(25000);						// Delay de 20 segundos
+			const audio_1 = MessageMedia.fromFilePath('./audios/audio1.ogg');
 			await client.sendMessage(msg.from,audio_1,{sendAudioAsVoice: true} ); 
 			await chat.clearState();
               
@@ -134,50 +138,86 @@ client.on('message', async msg => {
 
              //Enviando audio sobre o produto
 			await chat.sendStateRecording(); 			// Simulando Digitação
-			await delay(18000);						// Delay de 20 segundos
-			const audio_2 = MessageMedia.fromFilePath('./audios/audio_2.ogg');
+			//await delay(20000);						// Delay de 20 segundos
+			const audio_2 = MessageMedia.fromFilePath('./audios/audio2.ogg');
 			await client.sendMessage(msg.from,audio_2,{sendAudioAsVoice: true} ); 
 			await chat.clearState();
 
-            // Ultimo audio
+            
             await chat.sendStateRecording(); 			// Simulando Digitação
-			await delay(18000);						// Delay de 20 segundos
-			const audio_3 = MessageMedia.fromFilePath('./audios/audio_3.ogg');
+			//await delay(18000);						// Delay de 20 segundos
+			const audio_3 = MessageMedia.fromFilePath('./audios/audio3.ogg');
 			await client.sendMessage(msg.from,audio_3,{sendAudioAsVoice: true} ); 
 			await chat.clearState();
 
-			// Enviando texto
-			await chat.sendStateTyping();
+			// Enviando video
+			const modoUso= MessageMedia.fromFilePath('./videos/como_usar.mp4')
 			await delay(5000);
-			await client.sendMessage(msg.from,'Olha essa transformação incrível de uma das minhas clientes! O cabelo dela ficou lisinho e cheio de brilho com a nossa escova alisadora. 🥰 Isso porque ela tem uma tecnologia que realmente protege e alinha os fios sem esforço. Não é demais? 💇‍♀️✨');
+			await client.sendMessage(msg.from,modoUso);
+            //Enviando outro audio
+            await chat.sendStateRecording(); 			// Simulando Digitação
+			await delay(18000);						// Delay de 20 segundos
+			const audio_4 = MessageMedia.fromFilePath('./audios/audio4.ogg');
+			await client.sendMessage(msg.from,audio_4,{sendAudioAsVoice: true} ); 
+			await chat.clearState();
 
+            //Enviando mais um audio
+            await chat.sendStateRecording(); 			// Simulando Digitação
+			await delay(18000);						// Delay de 20 segundos
+			const audio_5 = MessageMedia.fromFilePath('./audios/audio5.ogg');
+			await client.sendMessage(msg.from,audio_5,{sendAudioAsVoice: true} ); 
+			await chat.clearState();
+            //Enviando texto
+            await chat.sendStateTyping();
+            await delay(5000);
+            await client.sendMessage(msg.from,'Olha esses resultados que minhas clientes me enviaram essa semana 😍👆🏻')
+            await chat.clearState();
              // Enviando foto
-			 foto=MessageMedia.fromFilePath('./images/antes_e_depois_2.jpg');
-			 await client.sendMessage(msg.from,foto)
-			 await chat.clearState();
+			 foto=MessageMedia.fromFilePath('./images/WhatsApp Image 2025-02-01 at 00.29.39.jpeg');
+			 await client.sendMessage(msg.from,foto);
 
-			 
-               
-			   //Texto
+             foto2=MessageMedia.fromFilePath('./images/WhatsApp Image 2025-02-01 at 00.29.39 (1).jpeg');
+			 await client.sendMessage(msg.from,foto2);
+
+             foto3=MessageMedia.fromFilePath('./images/WhatsApp Image 2025-02-01 at 00.29.38.jpeg');
+			 await client.sendMessage(msg.from,foto3);
+
+             foto4=MessageMedia.fromFilePath('./images/WhatsApp Image 2025-02-01 at 00.29.38 (1)jpeg');
+			 await client.sendMessage(msg.from,foto4);
+             //Enviando audios
+             await chat.sendStateRecording(); 			// Simulando Digitação
+			await delay(18000);						// Delay de 20 segundos
+			const audio_6 = MessageMedia.fromFilePath('./audios/audio6.ogg');
+			await client.sendMessage(msg.from,audio_6,{sendAudioAsVoice: true} ); 
+			 //Texto
 			   await chat.sendStateTyping();
-			   await delay(5000);
-			   await client.sendMessage(msg.from,'Agora deixa eu te contar a melhor parte: ela está com uma oferta especial por apenas R$ 119,99!');
-              await delay(6000);
-              await client.sendMessage(msg.from,'E você nem precisa pagar agora, tá? Pode agendar a entrega e pagar no dia que preferir, diretamente para o entregador.')
-              await delay(8000);
-              await client.sendMessage(msg.from,'Aceitamos Pix, débito, crédito e até parcelamos em 12x!');
-              await delay(6000);
-              await client.sendMessage(msg.from,'Que tal garantir a sua hoje? 😊');
+			   await delay(8000);
+			   await client.sendMessage(msg.from,'😱 PROGRESSIVA HAVANA SEM FORMOL (10 aplicações) de R$ 197,00 por apenas R$ 150,00🤑 COM ENTREGA TOTALMENTE GRATIS 🏍️');
               
+              //Enviando audios
+             await chat.sendStateRecording(); 			// Simulando Digitação
+             await delay(18000);						// Delay de 20 segundos
+             const audio_7 = MessageMedia.fromFilePath('./audios/audio7.ogg');
+             await client.sendMessage(msg.from,audio_7,{sendAudioAsVoice: true} ); 
+
+              //Texto
+			   await chat.sendStateTyping();
+			   await delay(8000);
+			   await client.sendMessage(msg.from,'⚠️⚠️⚠️ ou 2 UNIDADES POR APENAS R$197,00 ⚠️⚠️⚠️');
+               await client.sendMessage(msg.from,'Então? Podemos fechar seu pedido?😊');
+
             }  
-			if(msg.body.match(/como|quero|vou querer|onde|compra|comprar/i) && msg.from.endsWith('@c.us')){
+			if(msg.body.match(/como|quero|vou querer|onde|compra|comprar|sim|Sim/i) && msg.from.endsWith('@c.us')){
                 chat = await msg.getChat();
+
+                await chat.sendStateRecording();
+				await delay(8000);
+                audio9=MessageMedia.fromFilePath('./audios/audio9.ogg')
+                await client.sendMessage(msg.from,audio9);
 				await chat.sendStateTyping();
 				await delay(8000);
 				await client.sendMessage(msg.from,'Me manda só essas informações rapidinho:\n1️⃣ *Seu nome completo.*\n2️⃣ *Endereço para entrega (rua, número, cidade, estado e CEP).*\n3️⃣ *E me avisa se prefere agendar para amanhã mesmo! 💌*');
-				await chat.sendStateTyping();
-				await delay(6000);
-                await client.sendMessage(msg.from,"*OBS: O PAGAMENTO NA ENTREGA SÓ ESTÁ DISPONIVEL PARA ALGUMAS CIDADES!!*");
+				
 			
             }
 			

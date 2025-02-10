@@ -1,4 +1,17 @@
-2024/12/30-21:21:07.049 c1c Reusing MANIFEST C:\Bot\.wwebjs_auth\session-nova-sessao\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2024/12/30-21:21:07.050 c1c Recovering log #77
-2024/12/30-21:21:07.117 c1c Reusing old log C:\Bot\.wwebjs_auth\session-nova-sessao\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000077.log 
-2024/12/30-21:21:08.736 c1c Manual compaction at level-0 from '\x00\x1b\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x1c\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/02/10-01:22:59.029 2c1c Reusing MANIFEST C:\Bot\.wwebjs_auth\session-nova-sessao\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/02/10-01:22:59.029 2c1c Recovering log #91
+2025/02/10-01:22:59.042 2c1c Reusing old log C:\Bot\.wwebjs_auth\session-nova-sessao\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000091.log 
+2025/02/10-01:23:01.882 6330 Level-0 table #98: started
+2025/02/10-01:23:01.889 6330 Level-0 table #98: 66044 bytes OK
+2025/02/10-01:23:01.890 6330 Delete type=0 #91
+2025/02/10-01:23:01.890 6330 Manual compaction at level-0 from '\x00\x1c\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x1d\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/02/10-01:23:06.187 6330 Compacting 1@1 + 3@2 files
+2025/02/10-01:23:06.353 6330 Generated table #99@1: 39389 keys, 2197442 bytes
+2025/02/10-01:23:06.518 6330 Generated table #100@1: 21706 keys, 2181582 bytes
+2025/02/10-01:23:06.657 6330 Generated table #101@1: 56352 keys, 1323200 bytes
+2025/02/10-01:23:06.657 6330 Compacted 1@1 + 3@2 files => 5702224 bytes
+2025/02/10-01:23:06.658 6330 compacted to: files[ 0 0 3 0 0 0 0 ]
+2025/02/10-01:23:06.659 6330 Delete type=2 #93
+2025/02/10-01:23:06.659 6330 Delete type=2 #94
+2025/02/10-01:23:06.659 6330 Delete type=2 #95
+2025/02/10-01:23:06.659 6330 Delete type=2 #98

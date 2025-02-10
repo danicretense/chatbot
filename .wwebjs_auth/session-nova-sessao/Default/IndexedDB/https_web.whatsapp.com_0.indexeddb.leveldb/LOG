@@ -1,17 +1,4 @@
-2024/12/30-21:34:43.534 7fc0 Reusing MANIFEST C:\Bot\.wwebjs_auth\session-nova-sessao\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2024/12/30-21:34:43.534 7fc0 Recovering log #77
-2024/12/30-21:34:43.682 7fc0 Reusing old log C:\Bot\.wwebjs_auth\session-nova-sessao\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000077.log 
-2024/12/30-21:34:48.422 7f74 Level-0 table #84: started
-2024/12/30-21:34:48.460 7f74 Level-0 table #84: 1536219 bytes OK
-2024/12/30-21:34:48.461 7f74 Delete type=0 #77
-2024/12/30-21:34:48.462 7f74 Manual compaction at level-0 from '\x00\x1c\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x1d\x00\x00\x00' @ 0 : 0; will stop at (end)
-2024/12/30-21:34:50.073 1c80 Compacting 1@1 + 3@2 files
-2024/12/30-21:34:50.174 1c80 Generated table #85@1: 32661 keys, 2192655 bytes
-2024/12/30-21:34:50.270 1c80 Generated table #86@1: 38544 keys, 2192483 bytes
-2024/12/30-21:34:50.326 1c80 Generated table #87@1: 18957 keys, 461392 bytes
-2024/12/30-21:34:50.326 1c80 Compacted 1@1 + 3@2 files => 4846530 bytes
-2024/12/30-21:34:50.326 1c80 compacted to: files[ 0 0 3 0 0 0 0 ]
-2024/12/30-21:34:50.326 1c80 Delete type=2 #79
-2024/12/30-21:34:50.326 1c80 Delete type=2 #80
-2024/12/30-21:34:50.326 1c80 Delete type=2 #81
-2024/12/30-21:34:50.326 1c80 Delete type=2 #84
+2025/02/10-01:24:47.960 4fe4 Reusing MANIFEST C:\Bot\.wwebjs_auth\session-nova-sessao\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/02/10-01:24:47.960 4fe4 Recovering log #97
+2025/02/10-01:24:47.969 4fe4 Reusing old log C:\Bot\.wwebjs_auth\session-nova-sessao\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000097.log 
+2025/02/10-01:24:49.924 4b4 Manual compaction at level-0 from '\x00\x1d\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x1e\x00\x00\x00' @ 0 : 0; will stop at (end)
