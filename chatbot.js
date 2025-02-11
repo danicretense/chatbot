@@ -24,6 +24,7 @@ let client;
         authStrategy: new LocalAuth({ clientId: 'nova-sessao' }),
         puppeteer: {
             headless: true,
+            executablePath: '/usr/bin/google-chrome-stable',
             args: ['--no-sandbox',
             '--disable-setuid-sandbox',
             '--disable-dev-shm-usage',
@@ -168,7 +169,7 @@ for(i of array){
 			await chat.clearState();
 
 			// Enviando video
-			const modoUso= MessageMedia.fromFilePath('./videos/como_usar.mp4')
+			const modoUso= MessageMedia.fromFilePath('./videos/Modo_de_usar.mp4')
 			await delay(5000);
 			await client.sendMessage(msg.from,modoUso);
             //Enviando outro audio
@@ -236,10 +237,10 @@ for(i of array){
                 await client.sendMessage(msg.from,audio8);
                 await delay(15000);
                 await client.sendMessage(msg.from,'CNPJ caso queira consultar:\n25351.324520/2021-99');
-                vid1= MessageMedia.fromFilePath('./videos/vid1.mp4');
+                vid1= MessageMedia.fromFilePath('./videos/vid1.webm');
                 await delay(12000);
                 await client.sendMessage(msg.from,vid1);
-                vid2=MessageMedia.fromFilePath('./videos/vid2.mp4');
+                vid2=MessageMedia.fromFilePath('./videos/vid2.webm');
                 await delay(12000);
                 await client.sendMessage(msg.from,vid2);
                 await chat.sendStateTyping();
