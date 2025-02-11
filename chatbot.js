@@ -24,7 +24,7 @@ let client;
         authStrategy: new LocalAuth({ clientId: 'nova-sessao' }),
         puppeteer: {
             headless: true,
-            executablePath: "/usr/bin/google-chrome-stable",
+            executablePath: "/usr/bin/chromium",
             args: ['--no-sandbox', '--disable-setuid-sandbox','--disable-dev-shm-usage',  // Usa menos memória compartilhada
         '--disable-gpu',  // Desativa GPU, economizando RAM
         '--disable-software-rasterizer',
