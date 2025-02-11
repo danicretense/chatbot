@@ -2,20 +2,14 @@ const { Client, LocalAuth, MessageMedia, List, Buttons } = require('whatsapp-web
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-const qrcode = require('qrcode'); // Importar a biblioteca de QR Code
+const qrcode = require('qrcode-terminal'); // Importar a biblioteca de QR Code
 
-const app = express();
-const PORT = 3000;
 
-// Diretório para salvar os QR Codes
-const qrDir = path.join(__dirname, 'qr-codes');
-if (!fs.existsSync(qrDir)) {
-    fs.mkdirSync(qrDir);
-}
+
+
 
 // Variáveis de estado
 let isAuthenticated = false;
-let lastQRCode = null;
 let client;
 
 // Função assíncrona para iniciar o Playwright e o cliente do WhatsApp
@@ -36,16 +30,9 @@ let client;
     });
 
     // Evento quando o cliente precisa exibir o QR Code
-    client.on('qr', (qr) => {
-        console.log('[INFO] QR Code recebido. Gerando imagem...');
-        qrcode.toFile(path.join(qrDir, 'qr-code.png'), qr, (err) => {
-            if (err) {
-                console.error('[ERRO] Não foi possível salvar o QR Code:', err);
-                return;
-            }
-            lastQRCode = qr; // Salvar o último QR Code gerado
-            console.log('[INFO] QR Code gerado com sucesso!');
-        });
+    client.on('qr', qr => {
+        console.log('Escaneie o QR Code abaixo para conectar:');
+        qrcode.generate(qr, { small: true }); // Exibe o QR Code no terminal de forma visual
     });
     client.on('loading_screen', (percent, message) => {
         console.log(`[INFO] Carregando... ${percent}% - ${message}`);
@@ -83,26 +70,7 @@ let client;
 
 //console.log("Verificando client:", client);
 
-// Servidor Express para exibir QR Code
-app.get('/qr', (req, res) => {
-    if (isAuthenticated) {
-        res.send('O cliente já está autenticado.');
-    } else if (lastQRCode) {
-        const qrImagePath = path.join(qrDir, 'qr-code.png');
-        if (fs.existsSync(qrImagePath)) {
-            res.sendFile(qrImagePath);
-        } else {
-            res.send('QR Code foi gerado, mas o arquivo não foi encontrado.');
-        }
-    } else {
-        res.send('QR Code ainda não foi gerado.');
-    }
-});
 
-// Iniciar servidor
-app.listen(PORT, () => {
-    console.log(`[INFO] Servidor rodando em http://localhost:${PORT}`);
-});
 // Função para criar um delay entre uma ação e outra
 const delay = ms => new Promise(res => setTimeout(res, ms)); 
 
@@ -282,11 +250,7 @@ process.on('unhandledRejection', (error) => {
   
   
   
-  app.use('/qr', express.static(path.join(__dirname, 'qr-codes')));
-
-app.get('/', (req, res) => {
-    res.send('Bot está rodando. Acesse /qr para ver os QR Codes.');
-});
+  
 
 
 //---------------------------------------------------------------------------
