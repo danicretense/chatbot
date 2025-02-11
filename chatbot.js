@@ -24,11 +24,12 @@ let client;
         authStrategy: new LocalAuth({ clientId: 'nova-sessao' }),
         puppeteer: {
             headless: true,
-            args: ['--no-sandbox', '--disable-setuid-sandbox','--disable-dev-shm-usage',  // Usa menos memória compartilhada
-        '--disable-gpu',  // Desativa GPU, economizando RAM
-        '--disable-software-rasterizer',
-        '--disable-accelerated-2d-canvas']
-        }
+            args: ['--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-accelerated-2d-canvas',
+            '--disable-gpu']
+            }
        //node --max-old-space-size=4096 chatbot.js
 
     });
