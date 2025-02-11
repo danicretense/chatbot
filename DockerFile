@@ -10,11 +10,7 @@ COPY package*.json ./
 # Instalar as dependências
 RUN npm install
 
-# Instalar um Chromium mais compatível
-RUN apt-get update && apt-get install -y \
-    chromium \
-    ffmpeg \
-    && rm -rf /var/lib/apt/lists/*
+
 
 # Copiar o restante do código da aplicação
 COPY . .
