@@ -23,8 +23,8 @@ let client;
     client = new Client({
         authStrategy: new LocalAuth({ clientId: 'nova-sessao' }),
         puppeteer: {
-            headless: false,
-            executablePath: '/usr/bin/google-chrome-stable',
+            headless: true,
+            executablePath: "/usr/bin/google-chrome-stable",
             args: ['--no-sandbox', '--disable-setuid-sandbox','--disable-dev-shm-usage',  // Usa menos memória compartilhada
         '--disable-gpu',  // Desativa GPU, economizando RAM
         '--disable-software-rasterizer',
@@ -116,7 +116,24 @@ client.on('ready', () => {
 });
 
 client.on('message', async msg => {
+    numero=msg.from;
+    array=Array.from(numero);
+    digito_1=array[2];
+    digito_2=array[3];
+    valido=false;
+for(i of array){
+
+    if(digito_1=="2"&& digito_2=="1"){
+
+        valido=true;
+
+    }else if(digito_1=="3"&&digito_2=="1"){
+
+        valido=true;
     
+    }
+}
+
 	try{
 		// Menu principal
 		if (msg.body.match(/(Olá! Tenho interesse e queria mais informações, por favor)/i) && msg.from.endsWith('@c.us')) {
@@ -129,7 +146,7 @@ client.on('message', async msg => {
 			msg.react('👍');
             await delay(2000);
 			await chat.sendStateRecording(); 			// Simulando Digitação
-			//await delay(25000);						// Delay de 20 segundos
+			await delay(25000);						// Delay de 20 segundos
 			const audio_1 = MessageMedia.fromFilePath('./audios/audio1.ogg');
 			await client.sendMessage(msg.from,audio_1,{sendAudioAsVoice: true} ); 
 			await chat.clearState();
@@ -138,14 +155,14 @@ client.on('message', async msg => {
 
              //Enviando audio sobre o produto
 			await chat.sendStateRecording(); 			// Simulando Digitação
-			//await delay(20000);						// Delay de 20 segundos
+			await delay(20000);						// Delay de 20 segundos
 			const audio_2 = MessageMedia.fromFilePath('./audios/audio2.ogg');
 			await client.sendMessage(msg.from,audio_2,{sendAudioAsVoice: true} ); 
 			await chat.clearState();
 
             
             await chat.sendStateRecording(); 			// Simulando Digitação
-			//await delay(18000);						// Delay de 20 segundos
+			await delay(18000);						// Delay de 20 segundos
 			const audio_3 = MessageMedia.fromFilePath('./audios/audio3.ogg');
 			await client.sendMessage(msg.from,audio_3,{sendAudioAsVoice: true} ); 
 			await chat.clearState();
@@ -170,7 +187,7 @@ client.on('message', async msg => {
             //Enviando texto
             await chat.sendStateTyping();
             await delay(5000);
-            await client.sendMessage(msg.from,'Olha esses resultados que minhas clientes me enviaram essa semana 😍👆🏻')
+            await client.sendMessage(msg.from,'Olha esses resultados que minhas clientes me enviaram essa semana 😍👇🏾')
             await chat.clearState();
              // Enviando foto
 			 foto=MessageMedia.fromFilePath('./images/WhatsApp Image 2025-02-01 at 00.29.39.jpeg');
@@ -182,13 +199,14 @@ client.on('message', async msg => {
              foto3=MessageMedia.fromFilePath('./images/WhatsApp Image 2025-02-01 at 00.29.38.jpeg');
 			 await client.sendMessage(msg.from,foto3);
 
-             foto4=MessageMedia.fromFilePath('./images/WhatsApp Image 2025-02-01 at 00.29.38 (1)jpeg');
+             foto4=MessageMedia.fromFilePath('./images/liso.jpeg');
 			 await client.sendMessage(msg.from,foto4);
              //Enviando audios
              await chat.sendStateRecording(); 			// Simulando Digitação
 			await delay(18000);						// Delay de 20 segundos
 			const audio_6 = MessageMedia.fromFilePath('./audios/audio6.ogg');
-			await client.sendMessage(msg.from,audio_6,{sendAudioAsVoice: true} ); 
+			await client.sendMessage(msg.from,audio_6,{sendAudioAsVoice: true} );
+            if(valido){ 
 			 //Texto
 			   await chat.sendStateTyping();
 			   await delay(8000);
@@ -205,21 +223,37 @@ client.on('message', async msg => {
 			   await delay(8000);
 			   await client.sendMessage(msg.from,'⚠️⚠️⚠️ ou 2 UNIDADES POR APENAS R$197,00 ⚠️⚠️⚠️');
                await client.sendMessage(msg.from,'Então? Podemos fechar seu pedido?😊');
-
-            }  
-			if(msg.body.match(/como|quero|vou querer|onde|compra|comprar|sim|Sim/i) && msg.from.endsWith('@c.us')){
-                chat = await msg.getChat();
-
+               await chat.sendStateRecording();
+               audio9= MessageMedia.fromFilePath('./audios/audio9.ogg');
+               await delay(16000);
+               await client.sendMessage(msg.from,audio9,{sendAudioAsVoice: true} );
+               await client.sendMessage(msg.from,'Me manda só essas informações rapidinho:\n1️⃣ *Seu nome completo.*\n2️⃣ *Endereço para entrega (rua, número, cidade, estado e CEP).*\n3️⃣ *E me avisa se prefere agendar para amanhã mesmo! 💌*');
+             
+            }else{
                 await chat.sendStateRecording();
 				await delay(8000);
-                audio9=MessageMedia.fromFilePath('./audios/audio9.ogg')
-                await client.sendMessage(msg.from,audio9);
-				await chat.sendStateTyping();
-				await delay(8000);
-				await client.sendMessage(msg.from,'Me manda só essas informações rapidinho:\n1️⃣ *Seu nome completo.*\n2️⃣ *Endereço para entrega (rua, número, cidade, estado e CEP).*\n3️⃣ *E me avisa se prefere agendar para amanhã mesmo! 💌*');
-				
-			
+                audio8=MessageMedia.fromFilePath('./audios/audio8-correios.ogg')
+                await client.sendMessage(msg.from,audio8);
+                await delay(15000);
+                await client.sendMessage(msg.from,'CNPJ caso queira consultar:\n25351.324520/2021-99');
+                vid1= MessageMedia.fromFilePath('./videos/vid1.mp4');
+                await delay(12000);
+                await client.sendMessage(msg.from,vid1);
+                vid2=MessageMedia.fromFilePath('./videos/vid2.mp4');
+                await delay(12000);
+                await client.sendMessage(msg.from,vid2);
+                await chat.sendStateTyping();
+                await delay(12000);
+                await client.sendMessage(msg.from,'Nosso estoque nos correios👆🏼');
+                await delay(15000);
+                await client.sendMessage(msg.from,'PROGRESSIVA HAVANA SEM FORMOL 😱 de: R$197,00 por apenas R$170,00 COM ENTREGA TOTALMENTE GRATIS EM 7 dias🚛\nFormas de pagamento: *PIX, BOLETO BANCÁRIO OU LINK PARA CARTÃO DE CREDITO EM ATE 12x* 💵\n Qual seria a melhor forma de pagamento para você?');
+                await client.sendMessage(msg.from,'Então? Podemos fechar seu pedido?😊');
+                audio9= MessageMedia.fromFilePath('./audios/audio9.ogg');
+               await delay(16000);
+               await client.sendMessage(msg.from,audio9,{sendAudioAsVoice: true} );
+               await client.sendMessage(msg.from,'Me manda só essas informações rapidinho:\n1️⃣ *Seu nome completo.*\n2️⃣ *Endereço para entrega (rua, número, cidade, estado e CEP).*\n3️⃣ *E me avisa se prefere agendar para amanhã mesmo! 💌*');
             }
+            }  
 			
 	
 
