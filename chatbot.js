@@ -9,13 +9,12 @@ const qrcode = require('qrcode-terminal'); // Importar a biblioteca de QR Code
 
 
 // Variáveis de estado
-let isAuthenticated = false;
+
 let client;
 
 // Função assíncrona para iniciar o Playwright e o cliente do WhatsApp
 
     client = new Client({
-        authStrategy: new LocalAuth({ clientId: 'nova-sessao' }),
         puppeteer: {
             headless: true,
             executablePath: '/usr/bin/google-chrome',
