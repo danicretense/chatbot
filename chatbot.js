@@ -17,6 +17,7 @@ let client;
     client = new Client({
         authStrategy: new LocalAuth({ clientId: 'nova-sessao' }),
         puppeteer: {
+            executablePath:'/usr/bin/google-chrome',
             headless: true,
            // executablePath:'/usr/bin/google-chrome',
             args: ['--no-sandbox',
@@ -55,15 +56,7 @@ let client;
         console.log('[INFO] Bot está pronto!');
         isAuthenticated = true;
     });
-    client.on('disconnected', (reason) => {
-        console.log('[INFO] Cliente desconectado:', reason);
-        if (browser) {
-            console.log('[INFO] Fechando o navegador...');
-            browser.close();
-        }
     
-        process.exit(1); 
-    });
     // Inicializar cliente
     client.initialize();
     console.log('[INFO] Inicialização concluída.');
@@ -135,7 +128,6 @@ for(i of array){
 			const audio_3 = MessageMedia.fromFilePath('./audios/audio3.ogg');
 			await client.sendMessage(msg.from,audio_3,{sendAudioAsVoice: true} ); 
 			await chat.clearState();
-            await client.sendMessage(msg.from,'Qual seu nome?');
 			// Enviando video
 			const modoUso= MessageMedia.fromFilePath('./videos/como_usar.mp4')
 			await delay(5000);
@@ -155,7 +147,7 @@ for(i of array){
 			await chat.clearState();
             //Enviando texto
             await chat.sendStateTyping();
-            await delay(5000);
+            await delay(60000);
             await client.sendMessage(msg.from,'Olha esses resultados que minhas clientes me enviaram essa semana 😍👇🏾')
             await chat.clearState();
              // Enviando foto
@@ -192,9 +184,8 @@ for(i of array){
 			   await delay(8000);
 			   await client.sendMessage(msg.from,'⚠️⚠️⚠️ ou 2 UNIDADES POR APENAS R$197,00 ⚠️⚠️⚠️');
                await client.sendMessage(msg.from,'Então? Podemos fechar seu pedido?😊');
-               await chat.sendStateRecording();
                audio9= MessageMedia.fromFilePath('./audios/audio9.ogg');
-               await delay(16000);
+               await delay(60000);
                await client.sendMessage(msg.from,audio9,{sendAudioAsVoice: true} );
                await client.sendMessage(msg.from,'Me manda só essas informações rapidinho:\n1️⃣ *Seu nome completo.*\n2️⃣ *Endereço para entrega (rua, número, cidade, estado e CEP).*\n3️⃣ *E me avisa se prefere agendar para amanhã mesmo! 💌*');
              
@@ -218,7 +209,7 @@ for(i of array){
                 await client.sendMessage(msg.from,'PROGRESSIVA HAVANA SEM FORMOL 😱 de: R$197,00 por apenas R$170,00 COM ENTREGA TOTALMENTE GRATIS EM 7 dias🚛\nFormas de pagamento: *PIX, BOLETO BANCÁRIO OU LINK PARA CARTÃO DE CREDITO EM ATE 12x* 💵\n Qual seria a melhor forma de pagamento para você?');
                 await client.sendMessage(msg.from,'Então? Podemos fechar seu pedido?😊');
                 audio9= MessageMedia.fromFilePath('./audios/audio9.ogg');
-               await delay(16000);
+               await delay(60000);
                await client.sendMessage(msg.from,audio9,{sendAudioAsVoice: true} );
                await client.sendMessage(msg.from,'Me manda só essas informações rapidinho:\n1️⃣ *Seu nome completo.*\n2️⃣ *Endereço para entrega (rua, número, cidade, estado e CEP).*\n3️⃣ *E me avisa se prefere agendar para amanhã mesmo! 💌*');
             }
