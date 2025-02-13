@@ -18,7 +18,7 @@ let client;
         authStrategy: new LocalAuth({ clientId: 'nova-sessao' }),
         puppeteer: {
             headless: true,
-            executablePath:'/usr/bin/google-chrome' ,
+            executablePath:"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" ,
             args: ['--no-sandbox',
             '--disable-setuid-sandbox',
             '--disable-dev-shm-usage',
