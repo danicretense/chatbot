@@ -135,7 +135,7 @@ for(i of array){
 			const audio_3 = MessageMedia.fromFilePath('./audios/audio3.ogg');
 			await client.sendMessage(msg.from,audio_3,{sendAudioAsVoice: true} ); 
 			await chat.clearState();
-
+            await client.sendMessage(msg.from,'Qual seu nome?');
 			// Enviando video
 			const modoUso= MessageMedia.fromFilePath('./videos/como_usar.mp4')
 			await delay(5000);
