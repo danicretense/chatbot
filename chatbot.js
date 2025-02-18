@@ -58,12 +58,9 @@ let client;
     });
     
     client.on('disconnected', (reason) => {
-        console.log('[INFO] Cliente desconectado:', reason);
-        if (browser) {
-            console.log('[INFO] Fechando o navegador...');
-            browser.close();
-        }
-    });
+    console.log('Bot desconectado. Motivo:', reason);
+    client.initialize(); // Tenta reconectar automaticamente
+});
 
 
 
