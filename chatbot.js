@@ -13,7 +13,7 @@ let isAuthenticated = false;
 let client;
 
 // Função assíncrona para iniciar o Playwright e o cliente do WhatsApp
-
+function iniciarBot(){
     client = new Client({
         authStrategy: new LocalAuth({ clientId: 'nova-sessao' }),
         puppeteer: {
@@ -59,8 +59,14 @@ let client;
     
     client.on('disconnected', (reason) => {
     console.log('Bot desconectado. Motivo:', reason);
-    client.initialize(); // Tenta reconectar automaticamente
+	    setTimeout(()  => {
+		    iniciarBot();
+	    }, 5000);
+		    
 });
+	client.initialize(); // Tenta reconectar automaticamente
+}
+iniciarBot();
 
 
 
