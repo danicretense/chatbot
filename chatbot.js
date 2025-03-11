@@ -194,10 +194,7 @@ for(i of array){
 			   await delay(8000);
 			   await client.sendMessage(msg.from,'⚠️⚠️⚠️ ou 2 UNIDADES POR APENAS R$197,00 ⚠️⚠️⚠️');
                await client.sendMessage(msg.from,'Então? Podemos fechar seu pedido?😊');
-               audio9= MessageMedia.fromFilePath('./audios/audio9.ogg');
-               await delay(60000);
-               await client.sendMessage(msg.from,audio9,{sendAudioAsVoice: true} );
-               await client.sendMessage(msg.from,'Me manda só essas informações rapidinho:\n1️⃣ *Seu nome completo.*\n2️⃣ *Endereço para entrega (rua, número, cidade, estado e CEP).*\n3️⃣ *E me avisa se prefere agendar para amanhã mesmo! 💌*');
+               
              
             }else{
                 await chat.sendStateRecording();
@@ -218,10 +215,7 @@ for(i of array){
                 await delay(15000);
                 await client.sendMessage(msg.from,'PROGRESSIVA HAVANA SEM FORMOL 😱 de: R$197,00 por apenas R$170,00 COM ENTREGA TOTALMENTE GRATIS EM 7 dias🚛\nFormas de pagamento: *PIX, BOLETO BANCÁRIO OU LINK PARA CARTÃO DE CREDITO EM ATE 12x* 💵\n Qual seria a melhor forma de pagamento para você?');
                 await client.sendMessage(msg.from,'Então? Podemos fechar seu pedido?😊');
-                audio9= MessageMedia.fromFilePath('./audios/audio9.ogg');
-               await delay(60000);
-               await client.sendMessage(msg.from,audio9,{sendAudioAsVoice: true} );
-               await client.sendMessage(msg.from,'Me manda só essas informações rapidinho:\n1️⃣ *Seu nome completo.*\n2️⃣ *Endereço para entrega (rua, número, cidade, estado e CEP).*\n3️⃣ *E me avisa se prefere agendar para amanhã mesmo! 💌*');
+                
             }
             }  
 			
