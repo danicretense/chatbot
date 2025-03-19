@@ -17,7 +17,7 @@ function iniciarBot(){
     client = new Client({
         authStrategy: new LocalAuth({ clientId: 'nova-sessao' }),
         puppeteer: {
-            executablePath:'/home/ec2-user/chatbot/firefox/firefox',
+          ///  executablePath:'/home/ec2-user/chatbot/firefox/firefox',
             headless: true,
            // executablePath:'/usr/bin/google-chrome',
             args: ['--no-sandbox',
