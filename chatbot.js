@@ -98,7 +98,7 @@ client.on('message', async msg => {
     valido=false;
 for(i of array){
 
-    if(digito_1=="2"&& digito_2=="1"){
+    if(digito_1=="7"&& digito_2=="1"){
 
         valido=true;
 
