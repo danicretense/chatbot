@@ -91,30 +91,12 @@ client.on('ready', () => {
 });
 
 client.on('message', async msg => {
-    numero=msg.from;
-    array=Array.from(numero);
-    digito_1=array[2];
-    digito_2=array[3];
-    valido=false;
-for(i of array){
-
-    if(digito_1=="7"&& digito_2=="1"){
-
-        valido=true;
-
-    }else if(digito_1=="3"&&digito_2=="1"){
-
-        valido=true;
-    
-    }
-}
+   
 
 	try{
 		// Menu principal
 		if (msg.body.match(/(Olá! Tenho interesse e queria mais informações, por favor)/i) && msg.from.endsWith('@c.us')) {
-
-			//Captura a mensagem enviada pelo cliente
-			const chat = await msg.getChat();
+            const chat = await msg.getChat();
 			
 			//Mensagem inicial
 									// Delay de 3 segundo
@@ -135,16 +117,30 @@ for(i of array){
 			await client.sendMessage(msg.from,audio_2,{sendAudioAsVoice: true} ); 
 			await chat.clearState();
 
+
+            // Enviando video
+			const modoUso= MessageMedia.fromFilePath('./videos/como_usar.mp4')
+			await delay(5000);
+			await client.sendMessage(msg.from,modoUso);
             
+           //Texto
+			   await chat.sendStateTyping();
+			   await delay(8000);
+			   await client.sendMessage(msg.from,'Funciona em todos os tipos de cabelos, porém é bom deixar pra pintar o cabelo apos uns 5 dias de uso da progressiva');
+             
+
+            //Texto
+			   await chat.sendStateTyping();
+			   await delay(8000);
+			   await client.sendMessage(msg.from,'Ela vem num frasco de 500ml e dependendo do tamanho do seu cabelo rende até 10 aplicações');   
+
             await chat.sendStateRecording(); 			// Simulando Digitação
 			await delay(18000);						// Delay de 20 segundos
 			const audio_3 = MessageMedia.fromFilePath('./audios/audio3.ogg');
 			await client.sendMessage(msg.from,audio_3,{sendAudioAsVoice: true} ); 
 			await chat.clearState();
-			// Enviando video
-			const modoUso= MessageMedia.fromFilePath('./videos/como_usar.mp4')
-			await delay(5000);
-			await client.sendMessage(msg.from,modoUso);
+			
+			
             //Enviando outro audio
             await chat.sendStateRecording(); 			// Simulando Digitação
 			await delay(18000);						// Delay de 20 segundos
@@ -159,67 +155,54 @@ for(i of array){
 			await client.sendMessage(msg.from,audio_5,{sendAudioAsVoice: true} ); 
 			await chat.clearState();
             //Enviando texto
-            await chat.sendStateTyping();
-            await delay(60000);
+            await delay(5000);
             await client.sendMessage(msg.from,'Olha esses resultados que minhas clientes me enviaram essa semana 😍👇🏾')
-            await chat.clearState();
+            
              // Enviando foto
-			 foto=MessageMedia.fromFilePath('./images/WhatsApp Image 2025-02-01 at 00.29.39.jpeg');
+			 foto=MessageMedia.fromFilePath('./images/WhatsApp Image 2025-02-01 at 00.29.39 (1).jpeg');
 			 await client.sendMessage(msg.from,foto);
-
-             foto2=MessageMedia.fromFilePath('./images/WhatsApp Image 2025-02-01 at 00.29.39 (1).jpeg');
+             await delay(5000);
+             foto2=MessageMedia.fromFilePath('./images/WhatsApp Image 2025-02-01 at 00.29.39.jpeg');
+             await delay(5000);
 			 await client.sendMessage(msg.from,foto2);
 
-             foto3=MessageMedia.fromFilePath('./images/WhatsApp Image 2025-02-01 at 00.29.38.jpeg');
-			 await client.sendMessage(msg.from,foto3);
 
+             foto3=MessageMedia.fromFilePath('./images/WhatsApp Image 2025-02-01 at 00.29.38.jpeg');
+             await delay(5000);
+			 await client.sendMessage(msg.from,foto3);
              foto4=MessageMedia.fromFilePath('./images/liso.jpeg');
+             await delay(5000);
 			 await client.sendMessage(msg.from,foto4);
-             //Enviando audios
-             await chat.sendStateRecording(); 			// Simulando Digitação
-			await delay(18000);						// Delay de 20 segundos
-			const audio_6 = MessageMedia.fromFilePath('./audios/audio6.ogg');
-			await client.sendMessage(msg.from,audio_6,{sendAudioAsVoice: true} );
-            if(valido){ 
+             //Enviando text
+
+             await chat.sendStateTyping();
+             await delay(10000);
+             await client.sendMessage(msg.from,'olha só que essa outra cliente achou da progressiva😍👇🏾');
+
+			const audio_6 = MessageMedia.fromFilePath('./audios/prova-social.ogg');
+            await delay(6000);
+			await client.sendMessage(msg.from,audio_6 );
+            
 			 //Texto
 			   await chat.sendStateTyping();
 			   await delay(8000);
-			   await client.sendMessage(msg.from,'😱 PROGRESSIVA HAVANA SEM FORMOL (10 aplicações) de R$ 197,00 por apenas R$ 150,00🤑 COM ENTREGA TOTALMENTE GRATIS 🏍️');
+			   await client.sendMessage(msg.from,'Pode comprar sem medo, a nossa progressiva realmente é de qualidade😉');
               
               //Enviando audios
              await chat.sendStateRecording(); 			// Simulando Digitação
              await delay(18000);						// Delay de 20 segundos
-             const audio_7 = MessageMedia.fromFilePath('./audios/audio7.ogg');
+             const audio_7 = MessageMedia.fromFilePath('./audios/audio6.ogg');
              await client.sendMessage(msg.from,audio_7,{sendAudioAsVoice: true} ); 
 
               //Texto
 			   await chat.sendStateTyping();
 			   await delay(8000);
-			   await client.sendMessage(msg.from,'⚠️⚠️⚠️ ou 2 UNIDADES POR APENAS R$197,00 ⚠️⚠️⚠️');
+			   await client.sendMessage(msg.from,'Progressiva em creme Havana 100% Vegetal por apenas R$150,00 reais\nou 2 unidades por R$197,00');
+               await chat.sendStateRecording();
+               await delay(18000);
+               audio_final=MessageMedia.fromFilePath('./audios/audio7.ogg');
+               await client.sendMessage(msg.from,audio_final,{sendAudioAsVoice: true})
                await client.sendMessage(msg.from,'Então? Podemos fechar seu pedido?😊');
-               
-             
-            }else{
-                await chat.sendStateRecording();
-				await delay(8000);
-                audio8=MessageMedia.fromFilePath('./audios/audio8-correios.ogg')
-                await client.sendMessage(msg.from,audio8);
-                await delay(15000);
-                await client.sendMessage(msg.from,'CNPJ caso queira consultar:\n25351.324520/2021-99');
-                vid1= MessageMedia.fromFilePath('./videos/vid1.mp4');
-                await delay(12000);
-                await client.sendMessage(msg.from,vid1);
-                vid2=MessageMedia.fromFilePath('./videos/vid2.mp4');
-                await delay(12000);
-                await client.sendMessage(msg.from,vid2);
-                await chat.sendStateTyping();
-                await delay(12000);
-                await client.sendMessage(msg.from,'Nosso estoque nos correios👆🏼');
-                await delay(15000);
-                await client.sendMessage(msg.from,'PROGRESSIVA HAVANA SEM FORMOL 😱 de: R$197,00 por apenas R$170,00 COM ENTREGA TOTALMENTE GRATIS EM 7 dias🚛\nFormas de pagamento: *PIX, BOLETO BANCÁRIO OU LINK PARA CARTÃO DE CREDITO EM ATE 12x* 💵\n Qual seria a melhor forma de pagamento para você?');
-                await client.sendMessage(msg.from,'Então? Podemos fechar seu pedido?😊');
-                
-            }
             }  
 			
 	
