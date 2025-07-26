@@ -101,108 +101,35 @@ client.on('message', async msg => {
 			//Mensagem inicial
 									// Delay de 3 segundo
 			msg.react('👍');
-            await delay(2000);
+            //await delay(2000);
 			await chat.sendStateRecording(); 			// Simulando Digitação
-			await delay(25000);						// Delay de 20 segundos
-			const audio_1 = MessageMedia.fromFilePath('./audios/audio1.ogg');
+			//await delay(25000);						// Delay de 20 segundos
+			const audio_1 = MessageMedia.fromFilePath('./audios/explicando.ogg');
 			await client.sendMessage(msg.from,audio_1,{sendAudioAsVoice: true} ); 
 			await chat.clearState();
               
+             // Enviando video
+			const modoUso= MessageMedia.fromFilePath('./videos/curso-por-dentro.mp4')
+			await delay(5000);
+			await client.sendMessage(msg.from,modoUso);
 
 
-             //Enviando audio sobre o produto
+             //Enviando audio 
 			await chat.sendStateRecording(); 			// Simulando Digitação
 			await delay(20000);						// Delay de 20 segundos
-			const audio_2 = MessageMedia.fromFilePath('./audios/audio2.ogg');
+			const audio_2 = MessageMedia.fromFilePath('./audios/gancho.ogg');
 			await client.sendMessage(msg.from,audio_2,{sendAudioAsVoice: true} ); 
 			await chat.clearState();
 
-
-            // Enviando video
-			const modoUso= MessageMedia.fromFilePath('./videos/como_usar.mp4')
-			await delay(5000);
-			await client.sendMessage(msg.from,modoUso);
-            
            //Texto
 			   await chat.sendStateTyping();
 			   await delay(8000);
-			   await client.sendMessage(msg.from,'Funciona em todos os tipos de cabelos, porém é bom deixar pra pintar o cabelo apos uns 5 dias de uso da progressiva');
-             
-
-            //Texto
-			   await chat.sendStateTyping();
-			   await delay(8000);
-			   await client.sendMessage(msg.from,'Ela vem num frasco de 500ml e dependendo do tamanho do seu cabelo rende até 10 aplicações');   
-
-            await chat.sendStateRecording(); 			// Simulando Digitação
-			await delay(18000);						// Delay de 20 segundos
-			const audio_3 = MessageMedia.fromFilePath('./audios/audio3.ogg');
-			await client.sendMessage(msg.from,audio_3,{sendAudioAsVoice: true} ); 
-			await chat.clearState();
-			
-			
-            //Enviando outro audio
-            await chat.sendStateRecording(); 			// Simulando Digitação
-			await delay(18000);						// Delay de 20 segundos
-			const audio_4 = MessageMedia.fromFilePath('./audios/audio4.ogg');
-			await client.sendMessage(msg.from,audio_4,{sendAudioAsVoice: true} ); 
-			await chat.clearState();
-
-            //Enviando mais um audio
-            await chat.sendStateRecording(); 			// Simulando Digitação
-			await delay(18000);						// Delay de 20 segundos
-			const audio_5 = MessageMedia.fromFilePath('./audios/audio5.ogg');
-			await client.sendMessage(msg.from,audio_5,{sendAudioAsVoice: true} ); 
-			await chat.clearState();
-            //Enviando texto
-            await delay(5000);
-            await client.sendMessage(msg.from,'Olha esses resultados que minhas clientes me enviaram essa semana 😍👇🏾')
-            
-             // Enviando foto
-			 foto=MessageMedia.fromFilePath('./images/WhatsApp Image 2025-02-01 at 00.29.39 (1).jpeg');
-			 await client.sendMessage(msg.from,foto);
-             await delay(5000);
-             foto2=MessageMedia.fromFilePath('./images/WhatsApp Image 2025-02-01 at 00.29.39.jpeg');
-             await delay(5000);
-			 await client.sendMessage(msg.from,foto2);
-
-
-             foto3=MessageMedia.fromFilePath('./images/WhatsApp Image 2025-02-01 at 00.29.38.jpeg');
-             await delay(5000);
-			 await client.sendMessage(msg.from,foto3);
-             foto4=MessageMedia.fromFilePath('./images/liso.jpeg');
-             await delay(5000);
-			 await client.sendMessage(msg.from,foto4);
-             //Enviando text
-
-             await chat.sendStateTyping();
-             await delay(10000);
-             await client.sendMessage(msg.from,'olha só que essa outra cliente achou da progressiva😍👇🏾');
-
-			const audio_6 = MessageMedia.fromFilePath('./audios/prova-social.ogg');
-            await delay(6000);
-			await client.sendMessage(msg.from,audio_6 );
-            
-			 //Texto
-			   await chat.sendStateTyping();
-			   await delay(8000);
-			   await client.sendMessage(msg.from,'Pode comprar sem medo, a nossa progressiva realmente é de qualidade😉');
-              
-              //Enviando audios
-             await chat.sendStateRecording(); 			// Simulando Digitação
-             await delay(18000);						// Delay de 20 segundos
-             const audio_7 = MessageMedia.fromFilePath('./audios/audio6.ogg');
-             await client.sendMessage(msg.from,audio_7,{sendAudioAsVoice: true} ); 
-
-              //Texto
-			   await chat.sendStateTyping();
-			   await delay(8000);
-			   await client.sendMessage(msg.from,'Progressiva em creme Havana 100% Vegetal por apenas R$150,00 reais\nou 2 unidades por R$197,00');
-               await chat.sendStateRecording();
-               await delay(18000);
-               audio_final=MessageMedia.fromFilePath('./audios/audio7.ogg');
-               await client.sendMessage(msg.from,audio_final,{sendAudioAsVoice: true})
-               await client.sendMessage(msg.from,'Então? Podemos fechar seu pedido?😊');
+			   await client.sendMessage(msg.from,'Olha só o que dizem os alunos da Jornada do Autodidata em Inglês:👇🏾');
+           
+               // Enviando video
+			const depo= MessageMedia.fromFilePath('./videos/depoimentos.mp4')
+			await delay(5000);
+			await client.sendMessage(msg.from,depo);
             }  
 			
 	
