@@ -109,7 +109,7 @@ client.on('message', async msg => {
 			//await chat.clearState();
               
              // Enviando video
-			const modoUso= MessageMedia.fromFilePath('./videos/curso-por-dentro.mp4')
+			const modoUso= MessageMedia.fromFilePath('./videos/curso-por-dentro_.mp4')
 			await delay(5000);
 			await client.sendMessage(msg.from,modoUso);
 
@@ -127,7 +127,7 @@ client.on('message', async msg => {
 			   await client.sendMessage(msg.from,'Olha só o que dizem os alunos da Jornada do Autodidata em Inglês:👇🏾');
            
                // Enviando video
-			const depo= MessageMedia.fromFilePath('./videos/depoimentos.mp4')
+			const depo= MessageMedia.fromFilePath('./videos/depoimentos_.mp4')
 			await delay(5000);
 			await client.sendMessage(msg.from,depo);
             }  
