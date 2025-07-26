@@ -109,7 +109,7 @@ client.on('message', async msg => {
 			//await chat.clearState();
               
              // Enviando video
-			const modoUso= MessageMedia.fromFilePath('./videos/curso-por-dentro_.mp4')
+			const modoUso= await MessageMedia.fromFilePath('./videos/curso-por-dentro_.mp4')
 			await delay(5000);
 			await client.sendMessage(msg.from,modoUso);
 
