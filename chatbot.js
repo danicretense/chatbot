@@ -105,8 +105,8 @@ client.on('message', async msg => {
 			await chat.sendStateRecording(); 			// Simulando Digitação
 			//await delay(25000);						// Delay de 20 segundos
 			const audio_1 = MessageMedia.fromFilePath('./audios/explicando.ogg');
-			await chat.sendMessage(msg.from,audio_1,{sendAudioAsVoice: true} ); 
-			await chat.clearState();
+			await client.sendMessage(msg.from,audio_1,{sendAudioAsVoice: true} ); 
+			//await chat.clearState();
               
              // Enviando video
 			const modoUso= MessageMedia.fromFilePath('./videos/curso-por-dentro.mp4')
