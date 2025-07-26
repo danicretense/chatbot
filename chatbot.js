@@ -111,7 +111,8 @@ client.on('message', async msg => {
              // Enviando video
 			const modoUso= await MessageMedia.fromFilePath('./videos/curso-por-dentro_.mp4')
 			await delay(5000);
-			await client.sendMessage(msg.from,modoUso);
+			console.log('modoUso:', modoUso);
+			//await client.sendMessage(msg.from,modoUso);
 
 
              //Enviando audio 
