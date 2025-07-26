@@ -117,7 +117,7 @@ client.on('message', async msg => {
              //Enviando audio 
 			await chat.sendStateRecording(); 			// Simulando Digitação
 			await delay(20000);						// Delay de 20 segundos
-			const audio_2 = MessageMedia.fromFilePath('./audios/gancho.ogg');
+			const audio_2 = MessageMedia.fromFilePath('./audios/gancho_opus.ogg');
 			await client.sendMessage(msg.from,audio_2,{sendAudioAsVoice: true} ); 
 			await chat.clearState();
 
