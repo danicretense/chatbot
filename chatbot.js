@@ -11,6 +11,7 @@ const qrcode = require('qrcode-terminal'); // Importar a biblioteca de QR Code
 // Variáveis de estado
 let isAuthenticated = false;
 let client;
+let encerrado=false;
 
 // Função assíncrona para iniciar o Playwright e o cliente do WhatsApp
 function iniciarBot(){
@@ -19,11 +20,12 @@ function iniciarBot(){
         puppeteer: {
           
             headless: true,
-            executablePath:'/usr/bin/google-chrome',
+            executablePath:'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
             args: ['--no-sandbox',
             '--disable-setuid-sandbox',
             '--disable-dev-shm-usage',
             '--disable-accelerated-2d-canvas',
+            '--user-data-dir=./chrome-profile',
             '--disable-gpu']
             }
        //node --max-old-space-size=4096 chatbot.js
@@ -56,15 +58,43 @@ function iniciarBot(){
         console.log('[INFO] Bot está pronto!');
         isAuthenticated = true;
     });
-    
-    client.on('disconnected', (reason) => {
+   client.on('message', async msg => {
+        if (encerrandoManualmente) return;
+
+        if (msg.body === '!sair') {
+            encerrandoManualmente = true;
+            try {
+                await msg.reply('Encerrando...');
+            } catch (e) {
+                console.log('Erro ao enviar msg:', e.message);
+            }
+            await client.destroy();
+            setTimeout(() => process.exit(0), 2000);
+        }
+
+        // outros comandos aqui...
+    });
+
+ client.on('disconnected', (reason) => {
     console.log('Bot desconectado. Motivo:', reason);
-	    setTimeout(()  => {
-		    iniciarBot();
-	    }, 5000);
-		    
+    if (!encerrandoManualmente) {
+        console.log('[INFO] Tentando reiniciar o bot...');
+        setTimeout(() => {
+            iniciarBot();
+        }, 5000);
+    } else {
+        console.log('[INFO] Encerramento manual, não irá reiniciar.');
+    }
 });
+
 	client.initialize(); // Tenta reconectar automaticamente
+
+    process.on('unhandledRejection', reason => {
+    console.error('[REJECTION]', reason);
+});
+process.on('uncaughtException', err => {
+    console.error('[EXCEPTION]', err);
+});
 }
 iniciarBot();
 
@@ -111,8 +141,8 @@ client.on('message', async msg => {
              // Enviando video
 			const modoUso= await MessageMedia.fromFilePath('./videos/curso-por-dentro_.mp4')
 			await delay(5000);
-			console.log('modoUso:', modoUso);
-			//await client.sendMessage(msg.from,modoUso);
+			//console.log('modoUso:', modoUso);
+			await client.sendMessage(msg.from,modoUso);
 
 
              //Enviando audio 
