@@ -20,7 +20,7 @@ function iniciarBot(){
         puppeteer: {
           
             headless: true,
-            executablePath:'/usr/bin/google-chrome',
+            executablePath:'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
             args: ['--no-sandbox',
             '--disable-setuid-sandbox',
             '--disable-dev-shm-usage',
@@ -59,10 +59,10 @@ function iniciarBot(){
         isAuthenticated = true;
     });
    client.on('message', async msg => {
-        if (encerrandoManualmente) return;
+        if (encerrado) return;
 
         if (msg.body === '!sair') {
-            encerrandoManualmente = true;
+           encerrado = true;
             try {
                 await msg.reply('Encerrando...');
             } catch (e) {
