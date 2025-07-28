@@ -171,7 +171,7 @@ client.on('message', async msg => {
 			   await client.sendMessage(msg.from,'Olha só o que dizem os alunos da Jornada do Autodidata em Inglês:👇🏾');
            
                // Enviando video
-			const depo= MessageMedia.fromFilePath('./videos/depoimentos_.mp4')
+			const depo= await MessageMedia.fromFilePath('./videos/depoimentos_.mp4')
 			await delay(10000);
 			await client.sendMessage(msg.from,depo);
             }  
