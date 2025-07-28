@@ -4,7 +4,8 @@ const fs = require('fs');
 const path = require('path');
 const qrcode = require('qrcode-terminal'); // Importar a biblioteca de QR Code
 
-
+const chromeProfilePath = path.resolve('./chrome-profile');
+const singletonLockPath = path.join(chromeProfilePath, 'SingletonLock');
 
 
 
@@ -15,6 +16,12 @@ let encerrado=false;
 
 // Função assíncrona para iniciar o Playwright e o cliente do WhatsApp
 function iniciarBot(){
+	
+
+
+if (fs.existsSync(singletonLockPath)) {
+  fs.unlinkSync(singletonLockPath);
+}
     client = new Client({
         authStrategy: new LocalAuth({ clientId: 'nova-sessao' }),
         puppeteer: {
@@ -25,7 +32,7 @@ function iniciarBot(){
             '--disable-setuid-sandbox',
             '--disable-dev-shm-usage',
             '--disable-accelerated-2d-canvas',
-            '--user-data-dir=./chrome-profile',
+            `--user-data-dir=/home/ubuntu/.config/chrome-profile-${Date.now()}`,
             '--disable-gpu']
             }
        //node --max-old-space-size=4096 chatbot.js
