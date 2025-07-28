@@ -28,8 +28,7 @@ if (fs.existsSync(singletonLockPath)) {
           
             headless: true,
             executablePath:'/usr/bin/google-chrome',
-            args: ['--no-sandbox', '--disable-setuid-sandbox'],
-        userDataDir: path.join(__dirname, 'chrome-data')
+            args: ['--no-sandbox', '--disable-setuid-sandbox']
             }
        //node --max-old-space-size=4096 chatbot.js
 
