@@ -28,12 +28,8 @@ if (fs.existsSync(singletonLockPath)) {
           
             headless: true,
             executablePath:'/usr/bin/google-chrome',
-            args: ['--no-sandbox',
-            '--disable-setuid-sandbox',
-            '--disable-dev-shm-usage',
-            '--disable-accelerated-2d-canvas',
-            `--user-data-dir=/home/ubuntu/.config/chrome-profile-${Date.now()}`,
-            '--disable-gpu']
+            args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        userDataDir: join(__dirname, 'chrome-data')
             }
        //node --max-old-space-size=4096 chatbot.js
 
