@@ -102,6 +102,12 @@ if (fs.existsSync(singletonLockPath)) {
 process.on('uncaughtException', err => {
     console.error('[EXCEPTION]', err);
 });
+	process.on('unhandledRejection', async (reason, promise) => {
+    console.error('❌ Erro não tratado:', reason);
+    // Aqui você pode tentar reiniciar o bot
+    process.exit(1); // PM2 irá reiniciar automaticamente
+});
+
 }
 iniciarBot();
 
