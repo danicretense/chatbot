@@ -157,7 +157,7 @@ client.on('message', async msg => {
               
              // Enviando video
 			const modoUso= await MessageMedia.fromFilePath('./videos/curso-por-dentro_.mp4')
-			await delay(5000);
+			await delay(25000);
 			//console.log('modoUso:', modoUso);
 			await client.sendMessage(msg.from,modoUso);
 
@@ -177,7 +177,7 @@ client.on('message', async msg => {
 await delay(5000); // Dar um delay depois de simular a digitação
                // Enviando video
 			const depo= await MessageMedia.fromFilePath('./videos/depoimentos_.mp4')
-			await delay(20000);
+			await delay(10000);
 			await client.sendMessage(msg.from,depo);
 			await chat.clearState();
             }  
