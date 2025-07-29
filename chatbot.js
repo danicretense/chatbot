@@ -88,7 +88,7 @@ if (fs.existsSync(lockFile)) {
 
  client.on('disconnected', (reason) => {
     console.log('Bot desconectado. Motivo:', reason);
-    if (!encerrandoManualmente) {
+    if (!encerrado) {
         console.log('[INFO] Tentando reiniciar o bot...');
         setTimeout(() => {
             iniciarBot();
