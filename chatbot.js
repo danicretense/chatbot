@@ -4,8 +4,9 @@ const fs = require('fs');
 const path = require('path');
 const qrcode = require('qrcode-terminal'); // Importar a biblioteca de QR Code
 
-const chromeProfilePath = path.resolve('./chrome-profile');
-const singletonLockPath = path.join(chromeProfilePath, 'SingletonLock');
+const singletonLockPath = path.resolve('./.wwebjs_auth/session-nova-sessao/SingletonLock');
+
+
 
 
 
@@ -104,15 +105,14 @@ process.on('uncaughtException', err => {
     // Aqui você pode tentar reiniciar o bot
     process.exit(1); // PM2 irá reiniciar automaticamente
 });
-
+console.log('[INFO] Inicialização concluída.');
 }
 iniciarBot();
 
 
 
-    // Inicializar cliente
-    client.initialize();
-    console.log('[INFO] Inicialização concluída.');
+   
+    
 
 //console.log("Verificando client:", client);
 
