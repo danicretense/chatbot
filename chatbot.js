@@ -6,12 +6,8 @@ const qrcode = require('qrcode-terminal'); // Importar a biblioteca de QR Code
 const fs = require('fs');
 const path = require('path');
 
-const profilePath = path.resolve(__dirname, 'chrome-profile');
-const lockFile = path.join(profilePath, 'SingletonLock');
-
-const singletonLockPath = path.resolve('./.wwebjs_auth/session-nova-sessao/SingletonLock');
-
-
+const sessionDataPath = path.resolve(__dirname, './.wwebjs_auth/session-nova-sessao');
+const lockFile = path.join(sessionDataPath, 'SingletonLock');
 
 
 
@@ -155,6 +151,7 @@ client.on('message', async msg => {
 			await chat.sendStateRecording(); 			// Simulando Digitação
 			//await delay(25000);						// Delay de 20 segundos
 			const audio_1 = MessageMedia.fromFilePath('./audios/explicando_opus.ogg');
+			await delay(5000)
 			await client.sendMessage(msg.from,audio_1,{sendAudioAsVoice: true} ); 
 			//await chat.clearState();
               
@@ -166,9 +163,9 @@ client.on('message', async msg => {
 
 
              //Enviando audio 
-			await chat.sendStateRecording(); 			// Simulando Digitação
-			await delay(20000);						// Delay de 20 segundos
+			await chat.sendStateRecording(); 			// Simulando Digitação						// Delay de 20 segundos
 			const audio_2 = MessageMedia.fromFilePath('./audios/gancho_opus.ogg');
+			await delay(20000);
 			await client.sendMessage(msg.from,audio_2,{sendAudioAsVoice: true} ); 
 			await chat.clearState();
 
