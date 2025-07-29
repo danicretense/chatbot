@@ -3,8 +3,8 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const qrcode = require('qrcode-terminal'); // Importar a biblioteca de QR Code
-const fs = require('fs');
-const path = require('path');
+//const fs = require('fs');
+//const path = require('path');
 
 const sessionDataPath = path.resolve(__dirname, './.wwebjs_auth/session-nova-sessao');
 const lockFile = path.join(sessionDataPath, 'SingletonLock');
