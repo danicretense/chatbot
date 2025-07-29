@@ -30,8 +30,9 @@ if (fs.existsSync(singletonLockPath)) {
             headless: true,
             executablePath:'/usr/bin/google-chrome',
             args: ['--no-sandbox', '--disable-setuid-sandbox', '--single-process',
-      '--no-zygote',
-      '--disable-dev-shm-usage']
+      '--no-zygote', 
+      '--disable-dev-shm-usage'],
+		timeout: 60000 
             }
        //node --max-old-space-size=4096 chatbot.js
 
