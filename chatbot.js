@@ -33,7 +33,7 @@ if (fs.existsSync(lockFile)) {
         puppeteer: {
           
             headless: true,
-            executablePath:'/usr/bin/google-chrome',
+            executablePath:"/usr/bin/google-chrome",
             args: ['--no-sandbox', '--disable-setuid-sandbox', '--single-process',
       '--no-zygote', 
       '--disable-dev-shm-usage'],
