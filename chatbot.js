@@ -98,7 +98,7 @@ if (fs.existsSync(lockFile)) {
     }
 });
 
-	//lient.initialize(); // Tenta reconectar automaticamente
+	client.initialize(); // Tenta reconectar automaticamente
 
     process.on('unhandledRejection', reason => {
     console.error('[REJECTION]', reason);
