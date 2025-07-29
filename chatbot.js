@@ -37,7 +37,7 @@ if (fs.existsSync(lockFile)) {
             args: ['--no-sandbox', '--disable-setuid-sandbox', '--single-process',
       '--no-zygote', 
       '--disable-dev-shm-usage','--disable-gpu'],
-		timeout: 60000 
+		timeout: 100000 
             }
        //node --max-old-space-size=4096 chatbot.js
 
