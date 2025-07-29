@@ -3,6 +3,11 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const qrcode = require('qrcode-terminal'); // Importar a biblioteca de QR Code
+const fs = require('fs');
+const path = require('path');
+
+const profilePath = path.resolve(__dirname, 'chrome-profile');
+const lockFile = path.join(profilePath, 'SingletonLock');
 
 
 
@@ -15,6 +20,16 @@ let encerrado=false;
 
 // Função assíncrona para iniciar o Playwright e o cliente do WhatsApp
 function iniciarBot(){
+ 
+if (fs.existsSync(lockFile)) {
+    try {
+        fs.unlinkSync(lockFile);
+        console.log('🔓 Arquivo SingletonLock removido com sucesso.');
+    } catch (err) {
+        console.error('Erro ao remover SingletonLock:', err);
+    }
+}
+
     client = new Client({
         authStrategy: new LocalAuth({ clientId: 'nova-sessao' }),
         puppeteer: {
@@ -87,7 +102,7 @@ function iniciarBot(){
     }
 });
 
-	client.initialize(); // Tenta reconectar automaticamente
+	//lient.initialize(); // Tenta reconectar automaticamente
 
     process.on('unhandledRejection', reason => {
     console.error('[REJECTION]', reason);
