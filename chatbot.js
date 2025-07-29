@@ -9,6 +9,8 @@ const path = require('path');
 const profilePath = path.resolve(__dirname, 'chrome-profile');
 const lockFile = path.join(profilePath, 'SingletonLock');
 
+const singletonLockPath = path.resolve('./.wwebjs_auth/session-nova-sessao/SingletonLock');
+
 
 
 
@@ -36,12 +38,10 @@ if (fs.existsSync(lockFile)) {
           
             headless: true,
             executablePath:'/usr/bin/google-chrome',
-            args: ['--no-sandbox',
-            '--disable-setuid-sandbox',
-            '--disable-dev-shm-usage',
-            '--disable-accelerated-2d-canvas',
-            '--user-data-dir=./chrome-profile',
-            '--disable-gpu']
+            args: ['--no-sandbox', '--disable-setuid-sandbox', '--single-process',
+      '--no-zygote', 
+      '--disable-dev-shm-usage'],
+		timeout: 60000 
             }
        //node --max-old-space-size=4096 chatbot.js
 
@@ -110,14 +110,19 @@ if (fs.existsSync(lockFile)) {
 process.on('uncaughtException', err => {
     console.error('[EXCEPTION]', err);
 });
+	process.on('unhandledRejection', async (reason, promise) => {
+    console.error('❌ Erro não tratado:', reason);
+    // Aqui você pode tentar reiniciar o bot
+    process.exit(1); // PM2 irá reiniciar automaticamente
+});
+console.log('[INFO] Inicialização concluída.');
 }
 iniciarBot();
 
 
 
-    // Inicializar cliente
-    client.initialize();
-    console.log('[INFO] Inicialização concluída.');
+   
+    
 
 //console.log("Verificando client:", client);
 
@@ -173,8 +178,8 @@ client.on('message', async msg => {
 			   await client.sendMessage(msg.from,'Olha só o que dizem os alunos da Jornada do Autodidata em Inglês:👇🏾');
            
                // Enviando video
-			const depo= MessageMedia.fromFilePath('./videos/depoimentos_.mp4')
-			await delay(5000);
+			const depo= await MessageMedia.fromFilePath('./videos/depoimentos_.mp4')
+			await delay(10000);
 			await client.sendMessage(msg.from,depo);
             }  
 			
