@@ -36,7 +36,7 @@ if (fs.existsSync(lockFile)) {
             executablePath:"/usr/bin/google-chrome",
             args: ['--no-sandbox', '--disable-setuid-sandbox', '--single-process',
       '--no-zygote', 
-      '--disable-dev-shm-usage'],
+      '--disable-dev-shm-usage','--disable-gpu'],
 		timeout: 60000 
             }
        //node --max-old-space-size=4096 chatbot.js
