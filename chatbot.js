@@ -151,11 +151,12 @@ client.on('message', async msg => {
 			await chat.clearState();
               
              // Enviando video
-			try{
+			
 			console.log('Carregando video...');
 			await delay(4000);
 			const modoUso= await MessageMedia.fromFilePath('./videos/curso-por-dentro_.mp4');
 			console.log('Enviando video...');
+			try{
 			await client.sendMessage(msg.from,modoUso);
                         console.log('Video enviado');
 			} catch (err){
@@ -175,12 +176,13 @@ client.on('message', async msg => {
 			   await client.sendMessage(msg.from,'Olha só o que dizem os alunos da Jornada do Autodidata em Inglês:👇🏾');
                           
                // Enviando video
-			try{
+			
 			console.log('Carregando depo...');
 			await delay(17000);
 			const depo= await MessageMedia.fromFilePath('./videos/depoimentos_.mp4');
 			console.log('Enviando...');
 			await delay(30000);
+			try{
 			await client.sendMessage(msg.from,depo);
 			console.log('enviado....');
 			} catch (err){
