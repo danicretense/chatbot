@@ -174,7 +174,7 @@ client.on('message', async msg => {
 await delay(5000); // Dar um delay depois de simular a digitação
                // Enviando video
 			const depo= await MessageMedia.fromFilePath('./videos/depoimentos_.mp4')
-			await delay(10000);
+			
 			await client.sendMessage(msg.from,depo);
 			await chat.clearState();
             }  
