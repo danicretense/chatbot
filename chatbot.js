@@ -153,11 +153,11 @@ client.on('message', async msg => {
              // Enviando video
 			console.log('Carregando video...')
 			const modoUso= await MessageMedia.fromFilePath('./videos/curso-por-dentro_.mp4')
-			await delay(8000);
+			//await delay(8000);
 			//console.log('modoUso:', modoUso);
 			console.log('Enviando video...')
 			await client.sendMessage(msg.from,modoUso);
-
+                        console.log('Video enviado')
 
              //Enviando audio 
 			await chat.sendStateRecording(); 			// Simulando Digitação						// Delay de 20 segundos
