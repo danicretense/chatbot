@@ -33,8 +33,8 @@ if (fs.existsSync(lockFile)) {
         puppeteer: {
           
             headless: true,
-            executablePath:"/usr/bin/google-chrome",
-            args: ['--no-sandbox', '--disable-setuid-sandbox','--single-process','--no-zygote','--disable-dev-shm-usage'
+            executablePath:"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+            args: ['--no-sandbox', '--disable-setuid-sandbox','--single-process','--no-zygote'
       ],
 		 
             }
