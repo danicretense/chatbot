@@ -34,7 +34,7 @@ if (fs.existsSync(lockFile)) {
           
             headless: true,
             executablePath:"/usr/bin/google-chrome",
-            args: ['--no-sandbox', '--disable-setuid-sandbox','--single-process','--no-zygote'
+            args: ['--no-sandbox', '--disable-setuid-sandbox'
       ],
 		 
             }
