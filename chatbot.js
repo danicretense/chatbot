@@ -140,7 +140,7 @@ client.on('message', async msg => {
             const chat = await msg.getChat();
 			
 			//Mensagem inicial
-									// Delay de 3 segundo
+			await delay(6000);						// Delay de 3 segundo
 			msg.react('👍');
             //await delay(2000);
 			await chat.sendStateRecording(); 			// Simulando Digitação
