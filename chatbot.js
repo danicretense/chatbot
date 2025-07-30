@@ -160,7 +160,7 @@ client.on('message', async msg => {
                        // console.log('Video enviado');
 			//} catch (err){
 				//console.log('video não enviado ',err);
-					    }//
+					  //  }//
 
              //Enviando audio 
 			//await chat.sendStateRecording(); 			// Simulando Digitação						// Delay de 20 segundos
