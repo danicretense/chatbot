@@ -152,7 +152,7 @@ client.on('message', async msg => {
               
              // Enviando video
 			const modoUso= await MessageMedia.fromFilePath('./videos/curso-por-dentro_.mp4')
-			await delay(25000);
+			await delay(8000);
 			//console.log('modoUso:', modoUso);
 			await client.sendMessage(msg.from,modoUso);
 
