@@ -151,14 +151,16 @@ client.on('message', async msg => {
 			await chat.clearState();
               
              // Enviando video
+			try{
 			console.log('Carregando video...');
 			await delay(4000);
 			const modoUso= await MessageMedia.fromFilePath('./videos/curso-por-dentro_.mp4');
-			//await delay(8000);
-			//console.log('modoUso:', modoUso);
 			console.log('Enviando video...');
 			await client.sendMessage(msg.from,modoUso);
                         console.log('Video enviado');
+			} catch (err){
+				console.log('video não enviado ',err);
+					    }
 
              //Enviando audio 
 			await chat.sendStateRecording(); 			// Simulando Digitação						// Delay de 20 segundos
@@ -171,9 +173,9 @@ client.on('message', async msg => {
 			   await chat.sendStateTyping();
 			   await delay(8000);
 			   await client.sendMessage(msg.from,'Olha só o que dizem os alunos da Jornada do Autodidata em Inglês:👇🏾');
-                           await chat.sendStateTyping(); 
-			   await chat.clearState();
+                          
                // Enviando video
+			try{
 			console.log('Carregando depo...');
 			await delay(4000);
 			const depo= await MessageMedia.fromFilePath('./videos/depoimentos_.mp4');
@@ -181,6 +183,9 @@ client.on('message', async msg => {
 			await delay(12000);
 			await client.sendMessage(msg.from,depo);
 			console.log('enviado....');
+			} catch (err){
+				console.log('O video não foi enviado: ',err);
+			}
 			
             }  
 			
