@@ -174,7 +174,7 @@ client.on('message', async msg => {
                            await chat.sendStateTyping(); 
 			   await chat.clearState();
                // Enviando video
-			console.log('Carregando depo...);
+			console.log('Carregando depo...');
 			const depo= await MessageMedia.fromFilePath('./videos/depoimentos_.mp4');
 			console.log('Enviando...);
 			await client.sendMessage(msg.from,depo);
