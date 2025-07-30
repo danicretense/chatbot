@@ -33,11 +33,10 @@ if (fs.existsSync(lockFile)) {
         puppeteer: {
           
             headless: true,
-            executablePath:"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-            args: ['--no-sandbox', '--disable-setuid-sandbox', '--single-process',
-      '--no-zygote', 
-      '--disable-dev-shm-usage','--disable-gpu'],
-		timeout: 100000 
+            executablePath:"/usr/bin/google-chrome",
+            args: ['--no-sandbox', '--disable-setuid-sandbox','--single-process','--no-zygote','--disable-dev-shm-usage'
+      ],
+		 
             }
        //node --max-old-space-size=4096 chatbot.js
 
@@ -86,29 +85,25 @@ if (fs.existsSync(lockFile)) {
         // outros comandos aqui...
     });
 
- client.on('disconnected', (reason) => {
+     
+
+   
+
+client.on('disconnected', (reason) => {
     console.log('Bot desconectado. Motivo:', reason);
-    if (!encerrado) {
-        console.log('[INFO] Tentando reiniciar o bot...');
-        setTimeout(() => {
-            iniciarBot();
-        }, 5000);
-    } else {
-        console.log('[INFO] Encerramento manual, não irá reiniciar.');
-    }
+    // Não chame iniciarBot() diretamente aqui.
+    // Deixe o gerenciador de processos (PM2) fazer o trabalho de reiniciar.
+    process.exit(1); // Isso faz o Node.js sair, e o PM2 o reiniciará.
 });
-
-	client.initialize(); // Tenta reconectar automaticamente
-
-    process.on('unhandledRejection', reason => {
-    console.error('[REJECTION]', reason);
+    client.initialize();
+// Remova as chamadas duplicadas de process.on('unhandledRejection') e process.on('uncaughtException')
+// Mantenha apenas uma versão para cada.
+process.on('unhandledRejection', (reason) => {
+    console.error('❌ Erro não tratado:', reason);
+    process.exit(1); // PM2 irá reiniciar automaticamente
 });
 process.on('uncaughtException', err => {
     console.error('[EXCEPTION]', err);
-});
-	process.on('unhandledRejection', async (reason, promise) => {
-    console.error('❌ Erro não tratado:', reason);
-    // Aqui você pode tentar reiniciar o bot
     process.exit(1); // PM2 irá reiniciar automaticamente
 });
 console.log('[INFO] Inicialização concluída.');
@@ -150,10 +145,10 @@ client.on('message', async msg => {
             //await delay(2000);
 			await chat.sendStateRecording(); 			// Simulando Digitação
 			//await delay(25000);						// Delay de 20 segundos
-			const audio_1 = MessageMedia.fromFilePath('./audios/explicando_opus.ogg');
+			const audio_1 = await MessageMedia.fromFilePath('./audios/explicando_opus.ogg');
 			await delay(5000)
 			await client.sendMessage(msg.from,audio_1,{sendAudioAsVoice: true} ); 
-			//await chat.clearState();
+			await chat.clearState();
               
              // Enviando video
 			const modoUso= await MessageMedia.fromFilePath('./videos/curso-por-dentro_.mp4')
