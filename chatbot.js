@@ -171,12 +171,14 @@ client.on('message', async msg => {
 			   await chat.sendStateTyping();
 			   await delay(8000);
 			   await client.sendMessage(msg.from,'Olha só o que dizem os alunos da Jornada do Autodidata em Inglês:👇🏾');
-                           await chat.sendStateTyping(); // Adicionar aqui
-await delay(5000); // Dar um delay depois de simular a digitação
+                           await chat.sendStateTyping(); 
+			   await chat.clearState();
                // Enviando video
-			const depo= await MessageMedia.fromFilePath('./videos/depoimentos_.mp4')
-			
+			console.log('Carregando depo...);
+			const depo= await MessageMedia.fromFilePath('./videos/depoimentos_.mp4');
+			console.log('Enviando...);
 			await client.sendMessage(msg.from,depo);
+			console.log('enviado....');
 			await chat.clearState();
             }  
 			
