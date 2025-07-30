@@ -178,9 +178,10 @@ client.on('message', async msg => {
 			await delay(4000);
 			const depo= await MessageMedia.fromFilePath('./videos/depoimentos_.mp4');
 			console.log('Enviando...');
+			await delay(12000);
 			await client.sendMessage(msg.from,depo);
 			console.log('enviado....');
-			await chat.clearState();
+			
             }  
 			
 	
